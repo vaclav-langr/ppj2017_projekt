@@ -50,4 +50,25 @@ public class CommentRating {
                 ", value=" + value +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        CommentRating temp = (CommentRating)obj;
+        if (getComment_id() != temp.getComment_id()) {
+            return false;
+        }
+        if (!getComment_rating_author().equals(temp.getComment_rating_author())) {
+            return false;
+        }
+        if (getValue() != temp.getValue()) {
+            return false;
+        }
+        return true;
+    }
 }

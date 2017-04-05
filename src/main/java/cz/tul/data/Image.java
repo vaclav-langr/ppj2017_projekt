@@ -14,6 +14,17 @@ public class Image {
 
     }
 
+    public Image(String image_author, String url) {
+        this.image_author = image_author;
+        this.url = url;
+    }
+
+    public Image(String image_author, String url, String name) {
+        this.image_author = image_author;
+        this.url = url;
+        this.name = name;
+    }
+
     public Image(int image_id, String image_author, String url, String name, Date created, Date updated) {
         this.image_id = image_id;
         this.image_author = image_author;
@@ -81,5 +92,36 @@ public class Image {
                 ", created=" + created +
                 ", updated=" + updated +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        Image temp = (Image)obj;
+        if (!getUrl().equals(temp.getUrl())){
+            return false;
+        }
+        if (getName() == null) {
+            if (temp.getName() != null) {
+                return false;
+            }
+        } else {
+            if (temp.getName() == null) {
+                return false;
+            } else {
+                if (!getName().equals(temp.getName())) {
+                    return false;
+                }
+            }
+        }
+        if (!getImage_author().equals(temp.getImage_author())) {
+            return false;
+        }
+        return true;
     }
 }

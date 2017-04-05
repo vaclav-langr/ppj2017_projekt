@@ -14,7 +14,13 @@ public class Comment {
 
     }
 
-    public Comment(int image_id, int comment_id, Date created, Date updated, String comment_text, String comment_) {
+    public Comment(int image_id, String comment_text, String comment_author) {
+        this.image_id = image_id;
+        this.comment_text = comment_text;
+        this.comment_author = comment_author;
+    }
+
+    public Comment(int image_id, int comment_id, Date created, Date updated, String comment_text, String comment_author) {
         this.image_id = image_id;
         this.comment_id = comment_id;
         this.created = created;
@@ -81,5 +87,26 @@ public class Comment {
                 ", comment_text='" + comment_text + '\'' +
                 ", author='" + comment_author + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        Comment temp = (Comment)obj;
+        if (getImage_id() != temp.getImage_id()) {
+            return false;
+        }
+        if (!getComment_author().equals(temp.getComment_author())) {
+            return false;
+        }
+        if (!getComment_text().equals(temp.getComment_text())) {
+            return false;
+        }
+        return true;
     }
 }

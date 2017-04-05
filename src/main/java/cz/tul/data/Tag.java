@@ -39,4 +39,22 @@ public class Tag {
                 ", tag='" + tag + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        Tag temp = (Tag)obj;
+        if (getImage_id() != temp.getImage_id()) {
+            return false;
+        }
+        if (!getTag().equals(temp.getTag())) {
+            return false;
+        }
+        return true;
+    }
 }

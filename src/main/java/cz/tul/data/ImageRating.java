@@ -50,4 +50,25 @@ public class ImageRating {
                 ", value=" + value +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        ImageRating temp = (ImageRating)obj;
+        if (getImage_id() != temp.getImage_id()) {
+            return false;
+        }
+        if (!getImage_rating_author().equals(temp.getImage_rating_author())) {
+            return false;
+        }
+        if (getValue() != temp.getValue()) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -11,6 +11,10 @@ public class Author {
 
     public Author(){}
 
+    public Author(String user_name) {
+        this.user_name = user_name;
+    }
+
     public Author(String user_name, Date registered) {
         this.user_name = user_name;
         this.registered = registered;

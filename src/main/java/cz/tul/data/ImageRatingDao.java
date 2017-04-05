@@ -25,25 +25,22 @@ public class ImageRatingDao {
         params.addValue("image_rating_author", rating.getImage_rating_author());
         params.addValue("value", rating.getValue());
 
-        return jdbc.update("insert into ImageRating (image_id, image_rating_author, value) values (:image_id, :image_rating_author, :vlaue)", params) == 1;
+        return jdbc.update("insert into ImageRating (image_id, image_rating_author, value) values (:image_id, :image_rating_author, :value)", params) == 1;
     }
 
     public boolean exists(int image_id, String image_rating_author) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("image_id", image_id);
         params.addValue("image_rating_author", image_rating_author);
-        return jdbc.queryForObject("select count(*) from Image where url=:url",
+        return jdbc.queryForObject("select count(*) from ImageRating where image_id=:image_id and image_rating_author=:image_rating_author",
                 params, Integer.class) > 0;
     }
 
-    public List<Image> getAllImages() {
-        return jdbc.query("select * from Image", BeanPropertyRowMapper.newInstance(Image.class));
+    public List<ImageRating> getAllImageRatings() {
+        return jdbc.query("select * from ImageRating", BeanPropertyRowMapper.newInstance(ImageRating.class));
     }
 
-    public void deleteImages() {
-        jdbc.getJdbcOperations().execute("DELETE FROM Tag");
+    public void deleteImageRatings() {
         jdbc.getJdbcOperations().execute("DELETE FROM ImageRating");
-        jdbc.getJdbcOperations().execute("DELETE FROM Comment");
-        jdbc.getJdbcOperations().execute("DELETE FROM Image");
     }
 }

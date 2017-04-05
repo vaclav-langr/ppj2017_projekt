@@ -1,5 +1,6 @@
 package cz.tul;
 
+import com.sun.scenario.effect.ImageDataRenderer;
 import cz.tul.data.*;
 import cz.tul.provisioning.Provisioner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,31 @@ public class Main {
     @Bean
     public AuthorDao authorDao() {
         return new AuthorDao();
+    }
+
+    @Bean
+    public CommentDao commentDao(){
+        return new CommentDao();
+    }
+
+    @Bean
+    public CommentRatingDao commentRatingDao(){
+        return new CommentRatingDao();
+    }
+
+    @Bean
+    public ImageDao imageDao(){
+        return new ImageDao();
+    }
+
+    @Bean
+    public ImageRatingDao imageRatingDao(){
+        return new ImageRatingDao();
+    }
+
+    @Bean
+    public TagDao tagDao(){
+        return new TagDao();
     }
 
     @Profile({"devel", "test"})
