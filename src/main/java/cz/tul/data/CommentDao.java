@@ -37,6 +37,16 @@ public class CommentDao {
         return jdbc.query("select * from Comment", BeanPropertyRowMapper.newInstance(Comment.class));
     }
 
+    public boolean update(Comment comment) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("comment_id", comment.getComment_id());
+        params.addValue("image_id", comment.getImage_id());
+        params.addValue("comment_author", comment.getComment_author());
+        params.addValue("comment_text", comment.getComment_text());
+        params.addValue("created", comment.getCreated());
+        return jdbc.update("update Comment set image_id=:image_id, comment_author=:comment_author, comment_text=:comment_text, created=:created where comment_id=:comment_id", params) == 1;
+    }
+
     public void deleteComments() {
         jdbc.getJdbcOperations().execute("DELETE FROM CommentRating");
         jdbc.getJdbcOperations().execute("DELETE FROM Comment");

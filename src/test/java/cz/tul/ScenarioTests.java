@@ -15,6 +15,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
 
 /**
@@ -68,6 +69,10 @@ public class ScenarioTests {
         assertEquals("Image should be equal", image, imageDao.getAllImages().get(0));
         image = imageDao.getAllImages().get(0);
 
+        image.setName("Name");
+        assertTrue("Image update should be created", imageDao.update(image));
+        assertNotEquals("Image should have updated date", null, imageDao.getAllImages().get(0).getUpdated());
+
         Tag tag = new Tag(image.getImage_id(), "TestingTag");
         assertTrue("Tag should be created", tagDao.create(tag));
         assertEquals("Tag should be equal", tag, tagDao.getAllTags().get(0));
@@ -80,6 +85,10 @@ public class ScenarioTests {
         assertTrue("Comment should be created", commentDao.create(comment));
         assertEquals("Comment should be equal", comment, commentDao.getAllComments().get(0));
         comment = commentDao.getAllComments().get(0);
+
+        comment.setComment_text("Testing comment 2");
+        assertTrue("Comment update should be created", commentDao.update(comment));
+        assertNotEquals("Comment should have updated date", null, commentDao.getAllComments().get(0).getUpdated());
 
         CommentRating commentRating = new CommentRating(comment.getComment_id(), a1.getUser_name(), -1);
         assertTrue("CommentRating should be created", commentRatingDao.create(commentRating));

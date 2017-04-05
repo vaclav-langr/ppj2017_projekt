@@ -1,7 +1,6 @@
 package cz.tul;
 
-import cz.tul.data.Author;
-import cz.tul.data.AuthorDao;
+import cz.tul.data.*;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Created by vaclavlangr on 04.04.17.
@@ -24,23 +21,38 @@ import static org.junit.Assert.assertFalse;
 @SpringApplicationConfiguration(classes = {Main.class})
 @ActiveProfiles({"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class AuthorDaoTests {
+public class TagDaoTests {
 
     @Autowired
     private AuthorDao authorDao;
 
+    @Autowired
+    private ImageDao imageDao;
+
+    @Autowired
+    private TagDao tagDao;
+
     @Test
     public void testAuthors(){
+        tagDao.deleteTags();
+        imageDao.deleteImages();
         authorDao.deleteAuthors();
 
         Author a = new Author("pepa");
-        assertTrue("Author creation should return true",authorDao.create(a));
+        authorDao.create(a);
 
-        List<Author> authors = authorDao.getAllAuthors();
-        assertEquals("Number of authors should be 1", 1, authors.size());
+        Image image = new Image(a.getUser_name(), "url");
+        imageDao.create(image);
+        image = imageDao.getAllImages().get(0);
 
-        assertTrue("Author should exist", authorDao.exists(a.getUser_name()));
+        Tag tag = new Tag(image.getImage_id(), "Test");
+        assertTrue("Tag should be created", tagDao.create(tag));
 
-        assertEquals("Created author should be identical to retrieved user", a, authors.get(0));
+        List<Tag> tags = tagDao.getAllTags();
+        assertEquals("Tag should contain 1 tag", 1, tags.size());
+
+        assertTrue("Tag should exist", tagDao.exists(image.getImage_id(), tag.getTag()));
+
+        assertEquals("Tag should be equal", tag, tags.get(0));
     }
 }

@@ -24,10 +24,8 @@ public class ImageDao {
         params.addValue("image_author", image.getImage_author());
         params.addValue("url", image.getUrl());
         params.addValue("name", image.getName());
-        params.addValue("created", image.getCreated());
-        params.addValue("updated", image.getUpdated());
 
-        return jdbc.update("insert into Image (image_author, url, name, created, updated) values (:image_author, :url, :name, :created, :updated)", params) == 1;
+        return jdbc.update("insert into Image (image_author, url, name) values (:image_author, :url, :name)", params) == 1;
     }
 
     public boolean exists(int image_id) {
