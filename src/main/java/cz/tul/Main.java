@@ -1,6 +1,5 @@
 package cz.tul;
 
-import com.sun.scenario.effect.ImageDataRenderer;
 import cz.tul.data.*;
 import cz.tul.provisioning.Provisioner;
 import org.springframework.boot.SpringApplication;
