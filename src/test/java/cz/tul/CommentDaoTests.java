@@ -42,12 +42,12 @@ public class CommentDaoTests {
         Author a = new Author("pepa");
         authorDao.create(a);
 
-        Image i = new Image(a.getUser_name(), "url");
+        Image i = new Image(a, "url");
         imageDao.create(i);
         i = imageDao.getAllImages().get(0);
 
-        Comment c = new Comment(i.getImage_id(), "comment", a.getUser_name());
-        assertTrue("Comment should be created",commentDao.create(c));
+        Comment c = new Comment(i, "comment", a);
+        commentDao.create(c);
 
         List<Comment> comments = commentDao.getAllComments();
         assertEquals("Number of comments should be 1", 1, comments.size());

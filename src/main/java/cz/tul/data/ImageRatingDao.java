@@ -1,5 +1,9 @@
 package cz.tul.data;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,36 +15,35 @@ import java.util.List;
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Transactional
 public class ImageRatingDao {
 
     @Autowired
-    private NamedParameterJdbcOperations jdbc;
+    private SessionFactory sessionFactory;
 
-    @Transactional
-    public boolean create(ImageRating rating) {
+    public Session session() {
+        return sessionFactory.getCurrentSession();
+    }
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-
-        params.addValue("image_id", rating.getImage_id());
-        params.addValue("image_rating_author", rating.getImage_rating_author());
-        params.addValue("value", rating.getValue());
-
-        return jdbc.update("insert into ImageRating (image_id, image_rating_author, value) values (:image_id, :image_rating_author, :value)", params) == 1;
+    public void create(ImageRating rating) {
+        session().save(rating);
     }
 
     public boolean exists(int image_id, String image_rating_author) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("image_id", image_id);
-        params.addValue("image_rating_author", image_rating_author);
-        return jdbc.queryForObject("select count(*) from ImageRating where image_id=:image_id and image_rating_author=:image_rating_author",
-                params, Integer.class) > 0;
+        Criteria crit = session().createCriteria(ImageRating.class);
+        crit.add(Restrictions.eq("image_id", image_id));
+        crit.add(Restrictions.eq("image_rating_author", image_rating_author));
+
+        ImageRating rating = (ImageRating) crit.uniqueResult();
+        return rating != null;
     }
 
     public List<ImageRating> getAllImageRatings() {
-        return jdbc.query("select * from ImageRating", BeanPropertyRowMapper.newInstance(ImageRating.class));
+        Criteria crit = session().createCriteria(ImageRating.class);
+        return crit.list();
     }
 
     public void deleteImageRatings() {
-        jdbc.getJdbcOperations().execute("DELETE FROM ImageRating");
+        session().createQuery("DELETE FROM ImageRating").executeUpdate();
     }
 }

@@ -1,36 +1,49 @@
 package cz.tul.data;
 
+import javax.persistence.*;
+
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Entity
+@Table(name="ImageRating")
 public class ImageRating {
-    private int image_id;
-    private String image_rating_author;
+    @Id
+    @ManyToOne
+    @JoinColumn(name="image_id")
+    private Image image;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name="image_rating_author")
+    private Author image_rating_author;
+
+    @Column(name="value")
     private int value;
 
     public ImageRating() {
 
     }
 
-    public ImageRating(int image_id, String image_rating_author, int value) {
-        this.image_id = image_id;
+    public ImageRating(Image image, Author image_rating_author, int value) {
+        this.image = image;
         this.image_rating_author = image_rating_author;
         this.value = value;
     }
 
-    public int getImage_id() {
-        return image_id;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
-    public String getImage_rating_author() {
+    public Author getImage_rating_author() {
         return image_rating_author;
     }
 
-    public void setImage_rating_author(String image_rating_author) {
+    public void setImage_rating_author(Author image_rating_author) {
         this.image_rating_author = image_rating_author;
     }
 
@@ -45,7 +58,7 @@ public class ImageRating {
     @Override
     public String toString() {
         return "ImageRating{" +
-                "image_id=" + image_id +
+                "image_id=" + image +
                 ", image_rating_author='" + image_rating_author + '\'' +
                 ", value=" + value +
                 '}';
@@ -60,7 +73,7 @@ public class ImageRating {
             return false;
         }
         ImageRating temp = (ImageRating)obj;
-        if (getImage_id() != temp.getImage_id()) {
+        if (getImage() != temp.getImage()) {
             return false;
         }
         if (!getImage_rating_author().equals(temp.getImage_rating_author())) {

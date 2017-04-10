@@ -41,12 +41,12 @@ public class TagDaoTests {
         Author a = new Author("pepa");
         authorDao.create(a);
 
-        Image image = new Image(a.getUser_name(), "url");
+        Image image = new Image(a, "url");
         imageDao.create(image);
         image = imageDao.getAllImages().get(0);
 
-        Tag tag = new Tag(image.getImage_id(), "Test");
-        assertTrue("Tag should be created", tagDao.create(tag));
+        Tag tag = new Tag(image, "Test");
+        tagDao.create(tag);
 
         List<Tag> tags = tagDao.getAllTags();
         assertEquals("Tag should contain 1 tag", 1, tags.size());

@@ -1,27 +1,36 @@
 package cz.tul.data;
 
+import javax.persistence.*;
+
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Entity
+@Table(name="Tag")
 public class Tag {
-    private int image_id;
+    @ManyToOne
+    @JoinColumn(name="image_id")
+    private Image image;
+
+    @Id
+    @Column(name="tag")
     private String tag;
 
     public Tag(){
 
     }
 
-    public Tag(int image_id, String tag) {
-        this.image_id = image_id;
+    public Tag(Image image, String tag) {
+        this.image = image;
         this.tag = tag;
     }
 
-    public int getImage_id() {
-        return image_id;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public String getTag() {
@@ -35,7 +44,7 @@ public class Tag {
     @Override
     public String toString() {
         return "Tag{" +
-                "image_id=" + image_id +
+                "image_id=" + image +
                 ", tag='" + tag + '\'' +
                 '}';
     }
@@ -49,7 +58,7 @@ public class Tag {
             return false;
         }
         Tag temp = (Tag)obj;
-        if (getImage_id() != temp.getImage_id()) {
+        if (getImage() != temp.getImage()) {
             return false;
         }
         if (!getTag().equals(temp.getTag())) {

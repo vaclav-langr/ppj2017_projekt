@@ -1,27 +1,50 @@
 package cz.tul.data;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Entity
+@Table(name="Comment")
 public class Comment {
-    private int image_id, comment_id;
-    private Date created, updated;
-    private String comment_text, comment_author;
+    @Id
+    @ManyToOne
+    @JoinColumn(name="image_id")
+    private Image image;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name="comment_author")
+    private Author comment_author;
+
+    @Id
+    @GeneratedValue
+    @Column(name="comment_id")
+    private int comment_id;
+
+    @Column(name="created")
+    private Date created;
+
+    @Column(name="updated")
+    private Date updated;
+
+    @Column(name="comment_text")
+    private String comment_text;
 
     public Comment(){
 
     }
 
-    public Comment(int image_id, String comment_text, String comment_author) {
-        this.image_id = image_id;
+    public Comment(Image image, String comment_text, Author comment_author) {
+        this.image = image;
         this.comment_text = comment_text;
         this.comment_author = comment_author;
     }
 
-    public Comment(int image_id, int comment_id, Date created, Date updated, String comment_text, String comment_author) {
-        this.image_id = image_id;
+    public Comment(Image image, int comment_id, Date created, Date updated, String comment_text, Author comment_author) {
+        this.image = image;
         this.comment_id = comment_id;
         this.created = created;
         this.updated = updated;
@@ -29,12 +52,12 @@ public class Comment {
         this.comment_author = comment_author;
     }
 
-    public int getImage_id() {
-        return image_id;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public int getComment_id() {
@@ -69,18 +92,18 @@ public class Comment {
         this.comment_text = comment_text;
     }
 
-    public String getComment_author() {
+    public Author getComment_author() {
         return comment_author;
     }
 
-    public void setComment_author(String comment_author) {
+    public void setComment_author(Author comment_author) {
         this.comment_author = comment_author;
     }
 
     @Override
     public String toString() {
         return "Comment{" +
-                "image_id=" + image_id +
+                "image_id=" + image +
                 ", comment_id=" + comment_id +
                 ", created=" + created +
                 ", updated=" + updated +
@@ -98,7 +121,7 @@ public class Comment {
             return false;
         }
         Comment temp = (Comment)obj;
-        if (getImage_id() != temp.getImage_id()) {
+        if (getImage() != temp.getImage()) {
             return false;
         }
         if (!getComment_author().equals(temp.getComment_author())) {

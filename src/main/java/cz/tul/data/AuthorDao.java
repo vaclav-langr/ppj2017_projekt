@@ -1,9 +1,10 @@
 package cz.tul.data;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -11,35 +12,33 @@ import java.util.List;
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Transactional
 public class AuthorDao {
 
     @Autowired
-    private NamedParameterJdbcOperations jdbc;
+    private SessionFactory sessionFactory;
 
-    @Transactional
-    public boolean create(Author author) {
+    public Session session() {
+        return sessionFactory.getCurrentSession();
+    }
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-
-        params.addValue("user_name", author.getUser_name());
-
-        return jdbc.update("insert into Author (user_name) values (:user_name)", params) == 1;
+    public void create(Author author) {
+        session().save(author);
     }
 
     public boolean exists(String user_name) {
-        return jdbc.queryForObject("select count(*) from Author where user_name=:user_name",
-                new MapSqlParameterSource("user_name", user_name), Integer.class) > 0;
+        Criteria crit = session().createCriteria(Author.class);
+        crit.add(Restrictions.idEq(user_name));
+        Author author = (Author) crit.uniqueResult();
+        return author != null;
     }
 
     public List<Author> getAllAuthors() {
-        return jdbc.query("select * from Author", BeanPropertyRowMapper.newInstance(Author.class));
+        Criteria crit = session().createCriteria(Author.class);
+        return crit.list();
     }
 
     public void deleteAuthors() {
-        jdbc.getJdbcOperations().execute("DELETE FROM ImageRating");
-        jdbc.getJdbcOperations().execute("DELETE FROM Image");
-        jdbc.getJdbcOperations().execute("DELETE FROM CommentRating");
-        jdbc.getJdbcOperations().execute("DELETE FROM Comment");
-        jdbc.getJdbcOperations().execute("DELETE FROM Author");
+        session().createQuery("DELETE FROM Author").executeUpdate();
     }
 }

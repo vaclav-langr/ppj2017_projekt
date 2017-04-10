@@ -1,36 +1,49 @@
 package cz.tul.data;
 
+import javax.persistence.*;
+
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Entity
+@Table(name="CommentRating")
 public class CommentRating {
-    private int comment_id;
-    private String comment_rating_author;
+    @Id
+    @ManyToOne
+    @JoinColumn(name="comment_id")
+    private Comment comment;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name="comment_rating_author")
+    private Author comment_rating_author;
+
+    @Column(name="value")
     private int value;
 
     public CommentRating(){
 
     }
 
-    public CommentRating(int comment_id, String comment_rating_author, int value) {
-        this.comment_id = comment_id;
+    public CommentRating(Comment comment, Author comment_rating_author, int value) {
+        this.comment = comment;
         this.comment_rating_author = comment_rating_author;
         this.value = value;
     }
 
-    public int getComment_id() {
-        return comment_id;
+    public Comment getComment() {
+        return comment;
     }
 
-    public void setComment_id(int comment_id) {
-        this.comment_id = comment_id;
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
-    public String getComment_rating_author() {
+    public Author getComment_rating_author() {
         return comment_rating_author;
     }
 
-    public void setComment_rating_author(String comment_rating_author) {
+    public void setComment_rating_author(Author comment_rating_author) {
         this.comment_rating_author = comment_rating_author;
     }
 
@@ -45,7 +58,7 @@ public class CommentRating {
     @Override
     public String toString() {
         return "CommentRating{" +
-                "comment_id=" + comment_id +
+                "comment_id=" + comment +
                 ", comment_rating_author='" + comment_rating_author + '\'' +
                 ", value=" + value +
                 '}';
@@ -60,7 +73,7 @@ public class CommentRating {
             return false;
         }
         CommentRating temp = (CommentRating)obj;
-        if (getComment_id() != temp.getComment_id()) {
+        if (getComment() != temp.getComment()) {
             return false;
         }
         if (!getComment_rating_author().equals(temp.getComment_rating_author())) {

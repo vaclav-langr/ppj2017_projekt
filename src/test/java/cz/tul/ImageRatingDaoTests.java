@@ -44,17 +44,17 @@ public class ImageRatingDaoTests {
         Author a2 = new Author("test_user");
         authorDao.create(a2);
 
-        Image image = new Image(a1.getUser_name(), "url");
+        Image image = new Image(a1, "url");
         imageDao.create(image);
         image = imageDao.getAllImages().get(0);
 
-        ImageRating imageRating = new ImageRating(image.getImage_id(),a2.getUser_name(),-1);
-        assertTrue("Image rating should be created", imageRatingDao.create(imageRating));
+        ImageRating imageRating = new ImageRating(image,a2,-1);
+        imageRatingDao.create(imageRating);
 
         List<ImageRating> imageRatings = imageRatingDao.getAllImageRatings();
         assertEquals("Image rating should contain 1 rating", 1, imageRatings.size());
 
-        assertTrue("Image rating should exist", imageRatingDao.exists(imageRating.getImage_id(), imageRating.getImage_rating_author()));
+        assertTrue("Image rating should exist", imageRatingDao.exists(imageRating.getImage().getImage_id(), imageRating.getImage_rating_author().getUser_name()));
 
         assertEquals("Image rating should be equal", imageRating, imageRatings.get(0));
     }

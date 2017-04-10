@@ -42,8 +42,8 @@ public class ImageDaoTests {
         Author a = new Author("pepa");
         authorDao.create(a);
 
-        Image image = new Image(a.getUser_name(), "url");
-        assertTrue("Image should be created", imageDao.create(image));
+        Image image = new Image(a, "url");
+        imageDao.create(image);
 
         List<Image> images = imageDao.getAllImages();
         assertEquals("Image should contain 1 image", 1, images.size());

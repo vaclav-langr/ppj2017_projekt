@@ -48,21 +48,21 @@ public class CommentRatingDaoTests {
         Author a2 = new Author("test_user");
         authorDao.create(a2);
 
-        Image i = new Image(a1.getUser_name(), "url");
+        Image i = new Image(a1, "url");
         imageDao.create(i);
         i = imageDao.getAllImages().get(0);
 
-        Comment c = new Comment(i.getImage_id(), "comment", a1.getUser_name());
+        Comment c = new Comment(i, "comment", a1);
         commentDao.create(c);
         c = commentDao.getAllComments().get(0);
 
-        CommentRating commentRating = new CommentRating(c.getComment_id(), a2.getUser_name(), 1);
-        assertTrue("Comment rating should be created", commentRatingDao.create(commentRating));
+        CommentRating commentRating = new CommentRating(c, a2, 1);
+        commentRatingDao.create(commentRating);
 
         List<CommentRating> commentRatings = commentRatingDao.getAllCommentRatings();
         assertEquals("Comment rating should contain 1 rating", 1, commentRatings.size());
 
-        assertTrue("Comment rating should exist", commentRatingDao.exists(commentRatings.get(0).getComment_id(), commentRatings.get(0).getComment_rating_author()));
+        assertTrue("Comment rating should exist", commentRatingDao.exists(commentRatings.get(0).getComment().getComment_id(), commentRatings.get(0).getComment_rating_author().getUser_name()));
 
         assertEquals("Comment rating should be equal", commentRating, commentRatings.get(0));
     }

@@ -1,54 +1,50 @@
 package cz.tul.data;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Transactional
 public class CommentDao {
     @Autowired
-    private NamedParameterJdbcOperations jdbc;
+    private SessionFactory sessionFactory;
 
-    @Transactional
-    public boolean create(Comment comment) {
+    public Session session() {
+        return sessionFactory.getCurrentSession();
+    }
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("image_id", comment.getImage_id());
-        params.addValue("comment_author", comment.getComment_author());
-        params.addValue("comment_text", comment.getComment_text());
-
-        return jdbc.update("insert into Comment (image_id, comment_author, comment_text) values (:image_id, :comment_author, :comment_text)", params) == 1;
+    public void create(Comment comment) {
+        comment.setCreated(new Date());
+        session().save(comment);
     }
 
     public boolean exists(int comment_id) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("comment_id", comment_id);
-        return jdbc.queryForObject("select count(*) from Comment where comment_id=:comment_id",
-                params, Integer.class) > 0;
+        Criteria crit = session().createCriteria(Comment.class);
+        crit.add(Restrictions.idEq(comment_id));
+        Comment comment = (Comment) crit.uniqueResult();
+        return comment != null;
     }
 
     public List<Comment> getAllComments() {
-        return jdbc.query("select * from Comment", BeanPropertyRowMapper.newInstance(Comment.class));
+        Criteria crit = session().createCriteria(Comment.class);
+        return crit.list();
     }
 
-    public boolean update(Comment comment) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("comment_id", comment.getComment_id());
-        params.addValue("image_id", comment.getImage_id());
-        params.addValue("comment_author", comment.getComment_author());
-        params.addValue("comment_text", comment.getComment_text());
-        params.addValue("created", comment.getCreated());
-        return jdbc.update("update Comment set image_id=:image_id, comment_author=:comment_author, comment_text=:comment_text, created=:created where comment_id=:comment_id", params) == 1;
+    public void update(Comment comment) {
+        comment.setUpdated(new Date());
+        session().update(comment);
     }
 
     public void deleteComments() {
-        jdbc.getJdbcOperations().execute("DELETE FROM CommentRating");
-        jdbc.getJdbcOperations().execute("DELETE FROM Comment");
+        session().createQuery("DELETE FROM Comment").executeUpdate();
     }
 }

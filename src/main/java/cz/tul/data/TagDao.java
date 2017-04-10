@@ -1,5 +1,9 @@
 package cz.tul.data;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,34 +15,34 @@ import java.util.List;
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Transactional
 public class TagDao {
     @Autowired
-    private NamedParameterJdbcOperations jdbc;
+    private SessionFactory sessionFactory;
 
-    @Transactional
-    public boolean create(Tag tag) {
+    public Session session() {
+        return sessionFactory.getCurrentSession();
+    }
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-
-        params.addValue("image_id", tag.getImage_id());
-        params.addValue("tag", tag.getTag());
-
-        return jdbc.update("insert into Tag (image_id, tag) values (:image_id, :tag)", params) == 1;
+    public void create(Tag tag) {
+        session().save(tag);
     }
 
     public boolean exists(int image_id, String tag) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("image_id", image_id);
-        params.addValue("tag", tag);
-        return jdbc.queryForObject("select count(*) from Tag where image_id=:image_id AND tag=:tag",
-                params, Integer.class) > 0;
+        Criteria crit = session().createCriteria(Tag.class);
+        crit.add(Restrictions.eq("image_id", image_id));
+        crit.add(Restrictions.eq("tag", tag));
+
+        Tag t = (Tag) crit.uniqueResult();
+        return t != null;
     }
 
     public List<Tag> getAllTags() {
-        return jdbc.query("select * from Tag", BeanPropertyRowMapper.newInstance(Tag.class));
+        Criteria crit = session().createCriteria(Tag.class);
+        return crit.list();
     }
 
     public void deleteTags() {
-        jdbc.getJdbcOperations().execute("DELETE FROM Tag");
+        session().createQuery("DELETE FROM Tag").executeUpdate();
     }
 }

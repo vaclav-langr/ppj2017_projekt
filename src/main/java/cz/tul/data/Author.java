@@ -1,12 +1,23 @@
 package cz.tul.data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Entity
+@Table(name="Author")
 public class Author {
+
+    @Id
+    @Column(name="user_name")
     private String user_name;
+
+    @Column(name="registered")
     private Date registered;
 
     public Author(){}

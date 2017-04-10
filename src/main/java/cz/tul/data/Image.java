@@ -1,33 +1,55 @@
 package cz.tul.data;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Entity
+@Table(name="Image")
 public class Image {
+
+    @Id
+    @GeneratedValue
+    @Column(name="image_id")
     private int image_id;
-    private String image_author, url, name;
-    private Date created, updated;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name="image_author")
+    private Author author;
+
+    @Column(name="url")
+    private String url;
+
+    @Column(name="name")
+    private String name;
+
+    @Column(name="created")
+    private Date created;
+
+    @Column(name="updated")
+    private Date updated;
 
     public Image(){
 
     }
 
-    public Image(String image_author, String url) {
-        this.image_author = image_author;
+    public Image(Author author, String url) {
+        this.author = author;
         this.url = url;
     }
 
-    public Image(String image_author, String url, String name) {
-        this.image_author = image_author;
+    public Image(Author author, String url, String name) {
+        this.author = author;
         this.url = url;
         this.name = name;
     }
 
-    public Image(int image_id, String image_author, String url, String name, Date created, Date updated) {
+    public Image(int image_id, Author author, String url, String name, Date created, Date updated) {
         this.image_id = image_id;
-        this.image_author = image_author;
+        this.author = author;
         this.url = url;
         this.name = name;
         this.created = created;
@@ -42,12 +64,12 @@ public class Image {
         this.image_id = image_id;
     }
 
-    public String getImage_author() {
-        return image_author;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setImage_author(String image_author) {
-        this.image_author = image_author;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public String getUrl() {
@@ -86,7 +108,7 @@ public class Image {
     public String toString() {
         return "Image{" +
                 "image_id=" + image_id +
-                ", image_author='" + image_author + '\'' +
+                ", image_author='" + author + '\'' +
                 ", url='" + url + '\'' +
                 ", name='" + name + '\'' +
                 ", created=" + created +
@@ -119,7 +141,7 @@ public class Image {
                 }
             }
         }
-        if (!getImage_author().equals(temp.getImage_author())) {
+        if (!getAuthor().equals(temp.getAuthor())) {
             return false;
         }
         return true;

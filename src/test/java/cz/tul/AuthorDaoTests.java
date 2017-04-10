@@ -34,7 +34,7 @@ public class AuthorDaoTests {
         authorDao.deleteAuthors();
 
         Author a = new Author("pepa");
-        assertTrue("Author creation should return true",authorDao.create(a));
+        authorDao.create(a);
 
         List<Author> authors = authorDao.getAllAuthors();
         assertEquals("Number of authors should be 1", 1, authors.size());
