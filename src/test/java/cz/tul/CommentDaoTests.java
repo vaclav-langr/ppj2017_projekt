@@ -1,5 +1,6 @@
 package cz.tul;
 
+import cz.tul.app.Main;
 import cz.tul.data.*;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class CommentDaoTests {
     private ImageDao imageDao;
 
     @Test
-    public void testAuthors(){
+    public void testComments(){
         commentDao.deleteComments();
         imageDao.deleteImages();
         authorDao.deleteAuthors();

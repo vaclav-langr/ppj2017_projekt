@@ -1,13 +1,14 @@
 package cz.tul.data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by vaclavlangr on 03.04.17.
  */
 @Entity
 @Table(name="CommentRating")
-public class CommentRating {
+public class CommentRating implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name="comment_id")
@@ -21,9 +22,7 @@ public class CommentRating {
     @Column(name="value")
     private int value;
 
-    public CommentRating(){
-
-    }
+    public CommentRating(){}
 
     public CommentRating(Comment comment, Author comment_rating_author, int value) {
         this.comment = comment;
@@ -73,7 +72,7 @@ public class CommentRating {
             return false;
         }
         CommentRating temp = (CommentRating)obj;
-        if (getComment() != temp.getComment()) {
+        if (!getComment().equals(temp.getComment())) {
             return false;
         }
         if (!getComment_rating_author().equals(temp.getComment_rating_author())) {
@@ -83,5 +82,10 @@ public class CommentRating {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

@@ -28,11 +28,10 @@ public class CommentRatingDao {
         session().save(rating);
     }
 
-    public boolean exists(int comment_id, String comment_rating_author) {
+    public boolean exists(Comment comment_id, Author comment_rating_author) {
         Criteria crit = session().createCriteria(CommentRating.class);
-        crit.createAlias("Comment", "c");
-        crit.add(Restrictions.eq("c.comment_id", comment_id));
-        crit.add(Restrictions.eq("c.comment_rating_author", comment_rating_author));
+        crit.add(Restrictions.eq("comment", comment_id));
+        crit.add(Restrictions.eq("comment_rating_author", comment_rating_author));
 
         CommentRating commentRating = (CommentRating) crit.uniqueResult();
         return commentRating != null;

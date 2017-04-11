@@ -9,12 +9,10 @@ import java.util.Date;
 @Entity
 @Table(name="Comment")
 public class Comment {
-    @Id
     @ManyToOne
     @JoinColumn(name="image_id")
     private Image image;
 
-    @Id
     @ManyToOne
     @JoinColumn(name="comment_author")
     private Author comment_author;
@@ -33,9 +31,7 @@ public class Comment {
     @Column(name="comment_text")
     private String comment_text;
 
-    public Comment(){
-
-    }
+    public Comment(){}
 
     public Comment(Image image, String comment_text, Author comment_author) {
         this.image = image;
@@ -121,7 +117,7 @@ public class Comment {
             return false;
         }
         Comment temp = (Comment)obj;
-        if (getImage() != temp.getImage()) {
+        if (!getImage().equals(temp.getImage())) {
             return false;
         }
         if (!getComment_author().equals(temp.getComment_author())) {

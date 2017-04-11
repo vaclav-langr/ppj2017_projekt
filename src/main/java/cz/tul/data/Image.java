@@ -15,7 +15,6 @@ public class Image {
     @Column(name="image_id")
     private int image_id;
 
-    @Id
     @ManyToOne
     @JoinColumn(name="image_author")
     private Author author;
@@ -32,9 +31,7 @@ public class Image {
     @Column(name="updated")
     private Date updated;
 
-    public Image(){
-
-    }
+    public Image(){}
 
     public Image(Author author, String url) {
         this.author = author;

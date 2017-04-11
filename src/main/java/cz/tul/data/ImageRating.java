@@ -1,13 +1,14 @@
 package cz.tul.data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by vaclavlangr on 03.04.17.
  */
 @Entity
 @Table(name="ImageRating")
-public class ImageRating {
+public class ImageRating implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name="image_id")
@@ -21,9 +22,7 @@ public class ImageRating {
     @Column(name="value")
     private int value;
 
-    public ImageRating() {
-
-    }
+    public ImageRating() {}
 
     public ImageRating(Image image, Author image_rating_author, int value) {
         this.image = image;
@@ -73,7 +72,7 @@ public class ImageRating {
             return false;
         }
         ImageRating temp = (ImageRating)obj;
-        if (getImage() != temp.getImage()) {
+        if (!getImage().equals(temp.getImage())) {
             return false;
         }
         if (!getImage_rating_author().equals(temp.getImage_rating_author())) {
@@ -83,5 +82,10 @@ public class ImageRating {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

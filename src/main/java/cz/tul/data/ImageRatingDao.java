@@ -29,9 +29,9 @@ public class ImageRatingDao {
         session().save(rating);
     }
 
-    public boolean exists(int image_id, String image_rating_author) {
+    public boolean exists(Image image, Author image_rating_author) {
         Criteria crit = session().createCriteria(ImageRating.class);
-        crit.add(Restrictions.eq("image_id", image_id));
+        crit.add(Restrictions.eq("image", image));
         crit.add(Restrictions.eq("image_rating_author", image_rating_author));
 
         ImageRating rating = (ImageRating) crit.uniqueResult();

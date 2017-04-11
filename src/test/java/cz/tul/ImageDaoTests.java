@@ -1,5 +1,6 @@
 package cz.tul;
 
+import cz.tul.app.Main;
 import cz.tul.data.Author;
 import cz.tul.data.AuthorDao;
 import cz.tul.data.Image;
@@ -35,7 +36,7 @@ public class ImageDaoTests {
     private ImageDao imageDao;
 
     @Test
-    public void testAuthors(){
+    public void testImages(){
         imageDao.deleteImages();
         authorDao.deleteAuthors();
 

@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public class AuthorDao {
     }
 
     public void create(Author author) {
+        author.setRegistered(new Date());
         session().save(author);
     }
 
@@ -39,6 +41,10 @@ public class AuthorDao {
     }
 
     public void deleteAuthors() {
+        session().createQuery("DELETE FROM ImageRating").executeUpdate();
+        session().createQuery("DELETE FROM CommentRating").executeUpdate();
+        session().createQuery("DELETE FROM Comment").executeUpdate();
+        session().createQuery("DELETE FROM Image").executeUpdate();
         session().createQuery("DELETE FROM Author").executeUpdate();
     }
 }

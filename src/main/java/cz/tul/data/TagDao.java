@@ -28,9 +28,9 @@ public class TagDao {
         session().save(tag);
     }
 
-    public boolean exists(int image_id, String tag) {
+    public boolean exists(Image image, String tag) {
         Criteria crit = session().createCriteria(Tag.class);
-        crit.add(Restrictions.eq("image_id", image_id));
+        crit.add(Restrictions.eq("image", image));
         crit.add(Restrictions.eq("tag", tag));
 
         Tag t = (Tag) crit.uniqueResult();

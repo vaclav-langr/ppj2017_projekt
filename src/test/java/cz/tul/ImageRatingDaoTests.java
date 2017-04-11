@@ -1,5 +1,6 @@
 package cz.tul;
 
+import cz.tul.app.Main;
 import cz.tul.data.*;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class ImageRatingDaoTests {
     private ImageRatingDao imageRatingDao;
 
     @Test
-    public void testAuthors(){
+    public void testImageRatings(){
         imageRatingDao.deleteImageRatings();
         imageDao.deleteImages();
         authorDao.deleteAuthors();
@@ -54,7 +55,7 @@ public class ImageRatingDaoTests {
         List<ImageRating> imageRatings = imageRatingDao.getAllImageRatings();
         assertEquals("Image rating should contain 1 rating", 1, imageRatings.size());
 
-        assertTrue("Image rating should exist", imageRatingDao.exists(imageRating.getImage().getImage_id(), imageRating.getImage_rating_author().getUser_name()));
+        assertTrue("Image rating should exist", imageRatingDao.exists(imageRating.getImage(), imageRating.getImage_rating_author()));
 
         assertEquals("Image rating should be equal", imageRating, imageRatings.get(0));
     }

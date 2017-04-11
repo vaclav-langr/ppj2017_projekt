@@ -49,6 +49,10 @@ public class ImageDao {
     }
 
     public void deleteImages() {
+        session().createQuery("DELETE FROM Tag").executeUpdate();
+        session().createQuery("DELETE FROM ImageRating").executeUpdate();
+        session().createQuery("DELETE FROM CommentRating").executeUpdate();
+        session().createQuery("DELETE FROM Comment").executeUpdate();
         session().createQuery("DELETE FROM Image").executeUpdate();
     }
 }

@@ -1,5 +1,6 @@
 package cz.tul;
 
+import cz.tul.app.Main;
 import cz.tul.data.*;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class TagDaoTests {
     private TagDao tagDao;
 
     @Test
-    public void testAuthors(){
+    public void testTags(){
         tagDao.deleteTags();
         imageDao.deleteImages();
         authorDao.deleteAuthors();
@@ -51,7 +52,7 @@ public class TagDaoTests {
         List<Tag> tags = tagDao.getAllTags();
         assertEquals("Tag should contain 1 tag", 1, tags.size());
 
-        assertTrue("Tag should exist", tagDao.exists(image.getImage_id(), tag.getTag()));
+        assertTrue("Tag should exist", tagDao.exists(image, tag.getTag()));
 
         assertEquals("Tag should be equal", tag, tags.get(0));
     }
