@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by vaclavlangr on 03.04.17.
  */
 @Entity
-@Table(name="CommentRating")
+@Table(name="Comment_Author")
 public class CommentRating implements Serializable {
     @Id
     @ManyToOne

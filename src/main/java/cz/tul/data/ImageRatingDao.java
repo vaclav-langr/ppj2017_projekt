@@ -5,9 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -44,6 +41,6 @@ public class ImageRatingDao {
     }
 
     public void deleteImageRatings() {
-        session().createQuery("DELETE FROM ImageRating").executeUpdate();
+        session().createQuery("DELETE FROM Image_Author").executeUpdate();
     }
 }

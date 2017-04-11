@@ -45,7 +45,7 @@ public class CommentDao {
     }
 
     public void deleteComments() {
-        session().createQuery("DELETE FROM CommentRating").executeUpdate();
+        session().createQuery("DELETE FROM Comment_Author").executeUpdate();
         session().createQuery("DELETE FROM Comment").executeUpdate();
     }
 }

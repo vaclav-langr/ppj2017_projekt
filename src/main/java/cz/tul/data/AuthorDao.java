@@ -41,8 +41,8 @@ public class AuthorDao {
     }
 
     public void deleteAuthors() {
-        session().createQuery("DELETE FROM ImageRating").executeUpdate();
-        session().createQuery("DELETE FROM CommentRating").executeUpdate();
+        session().createQuery("DELETE FROM Image_Author").executeUpdate();
+        session().createQuery("DELETE FROM Comment_Author").executeUpdate();
         session().createQuery("DELETE FROM Comment").executeUpdate();
         session().createQuery("DELETE FROM Image").executeUpdate();
         session().createQuery("DELETE FROM Author").executeUpdate();

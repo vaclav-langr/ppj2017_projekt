@@ -1,10 +1,8 @@
 package cz.tul.data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by vaclavlangr on 03.04.17.
@@ -19,6 +17,9 @@ public class Author {
 
     @Column(name="registered")
     private Date registered;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    private Set<Image> imageSet;
 
     public Author(){}
 
@@ -65,5 +66,13 @@ public class Author {
         }
         Author temp = (Author)obj;
         return getUser_name().equals(temp.getUser_name());
+    }
+
+    public Set<Image> getImageSet() {
+        return imageSet;
+    }
+
+    public void setImageSet(Set<Image> imageSet) {
+        this.imageSet = imageSet;
     }
 }

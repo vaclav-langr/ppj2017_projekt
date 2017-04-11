@@ -69,10 +69,10 @@ public class Main {
         ApplicationContext ctx = app.run(args);
 
         AuthorDao authorDao = ctx.getBean(AuthorDao.class);
+        authorDao.create(new Author("pepa"));
 
         List<Author> authors = authorDao.getAllAuthors();
         System.out.println(authors);
-
     }
 
 }
