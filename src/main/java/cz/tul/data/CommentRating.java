@@ -11,39 +11,37 @@ import java.io.Serializable;
 @IdClass(CommentRatingId.class)
 public class CommentRating implements Serializable {
     @Id
-    @ManyToOne
-    @JoinColumn(name="comment_id")
-    private Comment comment;
+    @Column(name="comment_id")
+    private int commentId;
 
     @Id
-    @ManyToOne
-    @JoinColumn(name="comment_rating_author")
-    private Author commentRatingAuthor;
+    @Column(name="comment_rating_author")
+    private int commentRatingAuthor;
 
     @Column(name="value")
     private int value;
 
     public CommentRating(){}
 
-    public CommentRating(Comment comment, Author commentRatingAuthor, int value) {
-        this.comment = comment;
+    public CommentRating(int commentId, int commentRatingAuthor, int value) {
+        this.commentId = commentId;
         this.commentRatingAuthor = commentRatingAuthor;
         this.value = value;
     }
 
-    public Comment getComment() {
-        return comment;
+    public int getCommentId() {
+        return commentId;
     }
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
     }
 
-    public Author getCommentRatingAuthor() {
+    public int getCommentRatingAuthor() {
         return commentRatingAuthor;
     }
 
-    public void setCommentRatingAuthor(Author commentRatingAuthor) {
+    public void setCommentRatingAuthor(int commentRatingAuthor) {
         this.commentRatingAuthor = commentRatingAuthor;
     }
 
@@ -58,7 +56,7 @@ public class CommentRating implements Serializable {
     @Override
     public String toString() {
         return "CommentRating{" +
-                "comment_id=" + comment +
+                "comment_id=" + commentId +
                 ", commentRatingAuthor='" + commentRatingAuthor + '\'' +
                 ", value=" + value +
                 '}';
@@ -73,10 +71,10 @@ public class CommentRating implements Serializable {
             return false;
         }
         CommentRating temp = (CommentRating)obj;
-        if (!getComment().equals(temp.getComment())) {
+        if (getCommentId() != temp.getCommentId()) {
             return false;
         }
-        if (!getCommentRatingAuthor().equals(temp.getCommentRatingAuthor())) {
+        if (getCommentRatingAuthor() != temp.getCommentRatingAuthor()) {
             return false;
         }
         if (getValue() != temp.getValue()) {

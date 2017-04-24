@@ -1,7 +1,10 @@
 package cz.tul.data;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by vaclavlangr on 03.04.17.
@@ -105,7 +108,7 @@ public class Image {
     public String toString() {
         return "Image{" +
                 "imageId=" + imageId +
-                ", image_author='" + author + '\'' +
+                ", author=" + author +
                 ", url='" + url + '\'' +
                 ", name='" + name + '\'' +
                 ", created=" + created +

@@ -7,5 +7,5 @@ import java.io.Serializable;
  */
 public class TagId implements Serializable {
     String tag;
-    Image image;
+    int imageId;
 }

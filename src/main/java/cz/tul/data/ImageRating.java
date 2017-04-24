@@ -11,39 +11,37 @@ import java.io.Serializable;
 @IdClass(ImageRatingId.class)
 public class ImageRating implements Serializable {
     @Id
-    @ManyToOne
-    @JoinColumn(name="image_id")
-    private Image image;
+    @Column(name="image_id")
+    private int imageId;
 
     @Id
-    @ManyToOne
-    @JoinColumn(name="image_rating_author")
-    private Author imageRatingAuthor;
+    @Column(name="image_rating_author")
+    private int imageRatingAuthor;
 
     @Column(name="value")
     private int value;
 
     public ImageRating() {}
 
-    public ImageRating(Image image, Author imageRatingAuthor, int value) {
-        this.image = image;
+    public ImageRating(int imageId, int imageRatingAuthor, int value) {
+        this.imageId = imageId;
         this.imageRatingAuthor = imageRatingAuthor;
         this.value = value;
     }
 
-    public Image getImage() {
-        return image;
+    public int getImageId() {
+        return imageId;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImage(int imageId) {
+        this.imageId = imageId;
     }
 
-    public Author getImageRatingAuthor() {
+    public int getImageRatingAuthor() {
         return imageRatingAuthor;
     }
 
-    public void setImageRatingAuthor(Author imageRatingAuthor) {
+    public void setImageRatingAuthor(int imageRatingAuthor) {
         this.imageRatingAuthor = imageRatingAuthor;
     }
 
@@ -58,7 +56,7 @@ public class ImageRating implements Serializable {
     @Override
     public String toString() {
         return "ImageRating{" +
-                "image_id=" + image +
+                "image_id=" + imageId +
                 ", imageRatingAuthor='" + imageRatingAuthor + '\'' +
                 ", value=" + value +
                 '}';
@@ -73,10 +71,10 @@ public class ImageRating implements Serializable {
             return false;
         }
         ImageRating temp = (ImageRating)obj;
-        if (!getImage().equals(temp.getImage())) {
+        if (getImageId() != temp.getImageId()) {
             return false;
         }
-        if (!getImageRatingAuthor().equals(temp.getImageRatingAuthor())) {
+        if (getImageRatingAuthor() != temp.getImageRatingAuthor()) {
             return false;
         }
         if (getValue() != temp.getValue()) {

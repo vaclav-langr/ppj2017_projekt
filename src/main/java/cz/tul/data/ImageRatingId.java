@@ -6,6 +6,6 @@ import java.io.Serializable;
  * Created by vaclavlangr on 24.04.17.
  */
 public class ImageRatingId implements Serializable {
-    Image image;
-    Author imageRatingAuthor;
+    int imageId;
+    int imageRatingAuthor;
 }

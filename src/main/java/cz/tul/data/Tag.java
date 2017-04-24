@@ -11,9 +11,8 @@ import java.io.Serializable;
 @IdClass(TagId.class)
 public class Tag implements Serializable {
     @Id
-    @ManyToOne
     @JoinColumn(name="image_id")
-    private Image image;
+    private int imageId;
 
     @Id
     @Column(name="tag")
@@ -21,17 +20,17 @@ public class Tag implements Serializable {
 
     public Tag(){}
 
-    public Tag(Image image, String tag) {
-        this.image = image;
+    public Tag(int imageId, String tag) {
+        this.imageId = imageId;
         this.tag = tag;
     }
 
-    public Image getImage() {
-        return image;
+    public int getImageId() {
+        return imageId;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     public String getTag() {
@@ -45,7 +44,7 @@ public class Tag implements Serializable {
     @Override
     public String toString() {
         return "Tag{" +
-                "image_id=" + image +
+                "imageId=" + imageId +
                 ", tag='" + tag + '\'' +
                 '}';
     }
@@ -59,7 +58,7 @@ public class Tag implements Serializable {
             return false;
         }
         Tag temp = (Tag)obj;
-        if (!getImage().equals(temp.getImage())) {
+        if (getImageId() != temp.getImageId()) {
             return false;
         }
         if (!getTag().equals(temp.getTag())) {
