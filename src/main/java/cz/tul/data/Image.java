@@ -143,4 +143,15 @@ public class Image {
         }
         return true;
     }
+
+    @PrePersist
+    public void prePersist(){
+        setCreated(new Date());
+        setUpdated(new Date());
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        setUpdated(new Date());
+    }
 }

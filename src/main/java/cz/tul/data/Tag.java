@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="Tag")
+@IdClass(TagId.class)
 public class Tag implements Serializable {
     @Id
     @ManyToOne

@@ -64,4 +64,9 @@ public class Author {
         Author temp = (Author)obj;
         return getUserName().equals(temp.getUserName());
     }
+
+    @PrePersist
+    public void prePersist(){
+        setRegistered(new Date());
+    }
 }

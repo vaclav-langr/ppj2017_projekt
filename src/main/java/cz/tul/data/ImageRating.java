@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="ImageRating")
+@IdClass(ImageRatingId.class)
 public class ImageRating implements Serializable {
     @Id
     @ManyToOne
