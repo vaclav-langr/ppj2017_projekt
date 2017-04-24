@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by vaclavlangr on 03.04.17.
  */
 @Entity
-@Table(name="Comment_Author")
+@Table(name="CommentRating")
 public class CommentRating implements Serializable {
     @Id
     @ManyToOne
@@ -17,16 +17,16 @@ public class CommentRating implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name="comment_rating_author")
-    private Author comment_rating_author;
+    private Author commentRatingAuthor;
 
     @Column(name="value")
     private int value;
 
     public CommentRating(){}
 
-    public CommentRating(Comment comment, Author comment_rating_author, int value) {
+    public CommentRating(Comment comment, Author commentRatingAuthor, int value) {
         this.comment = comment;
-        this.comment_rating_author = comment_rating_author;
+        this.commentRatingAuthor = commentRatingAuthor;
         this.value = value;
     }
 
@@ -38,12 +38,12 @@ public class CommentRating implements Serializable {
         this.comment = comment;
     }
 
-    public Author getComment_rating_author() {
-        return comment_rating_author;
+    public Author getCommentRatingAuthor() {
+        return commentRatingAuthor;
     }
 
-    public void setComment_rating_author(Author comment_rating_author) {
-        this.comment_rating_author = comment_rating_author;
+    public void setCommentRatingAuthor(Author commentRatingAuthor) {
+        this.commentRatingAuthor = commentRatingAuthor;
     }
 
     public int getValue() {
@@ -58,7 +58,7 @@ public class CommentRating implements Serializable {
     public String toString() {
         return "CommentRating{" +
                 "comment_id=" + comment +
-                ", comment_rating_author='" + comment_rating_author + '\'' +
+                ", commentRatingAuthor='" + commentRatingAuthor + '\'' +
                 ", value=" + value +
                 '}';
     }
@@ -75,7 +75,7 @@ public class CommentRating implements Serializable {
         if (!getComment().equals(temp.getComment())) {
             return false;
         }
-        if (!getComment_rating_author().equals(temp.getComment_rating_author())) {
+        if (!getCommentRatingAuthor().equals(temp.getCommentRatingAuthor())) {
             return false;
         }
         if (getValue() != temp.getValue()) {

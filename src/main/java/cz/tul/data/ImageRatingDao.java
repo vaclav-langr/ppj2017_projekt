@@ -26,10 +26,10 @@ public class ImageRatingDao {
         session().save(rating);
     }
 
-    public boolean exists(Image image, Author image_rating_author) {
+    public boolean exists(Image image, Author imageRatingAuthor) {
         Criteria crit = session().createCriteria(ImageRating.class);
         crit.add(Restrictions.eq("image", image));
-        crit.add(Restrictions.eq("image_rating_author", image_rating_author));
+        crit.add(Restrictions.eq("imageRatingAuthor", imageRatingAuthor));
 
         ImageRating rating = (ImageRating) crit.uniqueResult();
         return rating != null;
@@ -41,6 +41,6 @@ public class ImageRatingDao {
     }
 
     public void deleteImageRatings() {
-        session().createQuery("DELETE FROM Image_Author").executeUpdate();
+        session().createQuery("DELETE FROM ImageRating").executeUpdate();
     }
 }

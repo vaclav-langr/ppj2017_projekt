@@ -53,7 +53,7 @@ public class CommentDaoTests {
         List<Comment> comments = commentDao.getAllComments();
         assertEquals("Number of comments should be 1", 1, comments.size());
 
-        assertTrue("Comment should exist", commentDao.exists(comments.get(0).getComment_id()));
+        assertTrue("Comment should exist", commentDao.exists(comments.get(0).getCommentId()));
 
         assertEquals("Created comment should be identical to retrieved comment", c, comments.get(0));
     }

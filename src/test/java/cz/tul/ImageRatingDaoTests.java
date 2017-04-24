@@ -55,7 +55,7 @@ public class ImageRatingDaoTests {
         List<ImageRating> imageRatings = imageRatingDao.getAllImageRatings();
         assertEquals("Image rating should contain 1 rating", 1, imageRatings.size());
 
-        assertTrue("Image rating should exist", imageRatingDao.exists(imageRating.getImage(), imageRating.getImage_rating_author()));
+        assertTrue("Image rating should exist", imageRatingDao.exists(imageRating.getImage(), imageRating.getImageRatingAuthor()));
 
         assertEquals("Image rating should be equal", imageRating, imageRatings.get(0));
     }

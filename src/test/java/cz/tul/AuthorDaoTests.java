@@ -39,7 +39,7 @@ public class AuthorDaoTests {
         List<Author> authors = authorDao.getAllAuthors();
         assertEquals("Number of authors should be 1", 1, authors.size());
 
-        assertTrue("Author should exist", authorDao.exists(a.getUser_name()));
+        assertTrue("Author should exist", authorDao.exists(a.getUserName()));
 
         assertEquals("Created author should be identical to retrieved user", a, authors.get(0));
     }

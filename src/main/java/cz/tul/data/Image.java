@@ -13,7 +13,7 @@ public class Image {
     @Id
     @GeneratedValue
     @Column(name="image_id")
-    private int image_id;
+    private int imageId;
 
     @ManyToOne
     @JoinColumn(name="image_author")
@@ -44,8 +44,8 @@ public class Image {
         this.name = name;
     }
 
-    public Image(int image_id, Author author, String url, String name, Date created, Date updated) {
-        this.image_id = image_id;
+    public Image(int imageId, Author author, String url, String name, Date created, Date updated) {
+        this.imageId = imageId;
         this.author = author;
         this.url = url;
         this.name = name;
@@ -53,12 +53,12 @@ public class Image {
         this.updated = updated;
     }
 
-    public int getImage_id() {
-        return image_id;
+    public int getImageId() {
+        return imageId;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     public Author getAuthor() {
@@ -104,7 +104,7 @@ public class Image {
     @Override
     public String toString() {
         return "Image{" +
-                "image_id=" + image_id +
+                "imageId=" + imageId +
                 ", image_author='" + author + '\'' +
                 ", url='" + url + '\'' +
                 ", name='" + name + '\'' +

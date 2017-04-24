@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by vaclavlangr on 03.04.17.
  */
 @Entity
-@Table(name="Image_Author")
+@Table(name="ImageRating")
 public class ImageRating implements Serializable {
     @Id
     @ManyToOne
@@ -17,16 +17,16 @@ public class ImageRating implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn(name="image_rating_author")
-    private Author image_rating_author;
+    private Author imageRatingAuthor;
 
     @Column(name="value")
     private int value;
 
     public ImageRating() {}
 
-    public ImageRating(Image image, Author image_rating_author, int value) {
+    public ImageRating(Image image, Author imageRatingAuthor, int value) {
         this.image = image;
-        this.image_rating_author = image_rating_author;
+        this.imageRatingAuthor = imageRatingAuthor;
         this.value = value;
     }
 
@@ -38,12 +38,12 @@ public class ImageRating implements Serializable {
         this.image = image;
     }
 
-    public Author getImage_rating_author() {
-        return image_rating_author;
+    public Author getImageRatingAuthor() {
+        return imageRatingAuthor;
     }
 
-    public void setImage_rating_author(Author image_rating_author) {
-        this.image_rating_author = image_rating_author;
+    public void setImageRatingAuthor(Author imageRatingAuthor) {
+        this.imageRatingAuthor = imageRatingAuthor;
     }
 
     public int getValue() {
@@ -58,7 +58,7 @@ public class ImageRating implements Serializable {
     public String toString() {
         return "ImageRating{" +
                 "image_id=" + image +
-                ", image_rating_author='" + image_rating_author + '\'' +
+                ", imageRatingAuthor='" + imageRatingAuthor + '\'' +
                 ", value=" + value +
                 '}';
     }
@@ -75,7 +75,7 @@ public class ImageRating implements Serializable {
         if (!getImage().equals(temp.getImage())) {
             return false;
         }
-        if (!getImage_rating_author().equals(temp.getImage_rating_author())) {
+        if (!getImageRatingAuthor().equals(temp.getImageRatingAuthor())) {
             return false;
         }
         if (getValue() != temp.getValue()) {

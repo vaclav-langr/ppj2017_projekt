@@ -49,7 +49,7 @@ public class ImageDaoTests {
         List<Image> images = imageDao.getAllImages();
         assertEquals("Image should contain 1 image", 1, images.size());
 
-        assertTrue("Image should exist", imageDao.exists(images.get(0).getImage_id()));
+        assertTrue("Image should exist", imageDao.exists(images.get(0).getImageId()));
 
         assertEquals("Image should be same", image, images.get(0));
 

@@ -28,9 +28,9 @@ public class AuthorDao {
         session().save(author);
     }
 
-    public boolean exists(String user_name) {
+    public boolean exists(String userName) {
         Criteria crit = session().createCriteria(Author.class);
-        crit.add(Restrictions.idEq(user_name));
+        crit.add(Restrictions.idEq(userName));
         Author author = (Author) crit.uniqueResult();
         return author != null;
     }
@@ -41,8 +41,8 @@ public class AuthorDao {
     }
 
     public void deleteAuthors() {
-        session().createQuery("DELETE FROM Image_Author").executeUpdate();
-        session().createQuery("DELETE FROM Comment_Author").executeUpdate();
+        session().createQuery("DELETE FROM ImageRating").executeUpdate();
+        session().createQuery("DELETE FROM CommentRating").executeUpdate();
         session().createQuery("DELETE FROM Comment").executeUpdate();
         session().createQuery("DELETE FROM Image").executeUpdate();
         session().createQuery("DELETE FROM Author").executeUpdate();

@@ -27,9 +27,9 @@ public class ImageDao {
         session().save(image);
     }
 
-    public boolean exists(int image_id) {
+    public boolean exists(int imageId) {
         Criteria crit = session().createCriteria(Image.class);
-        crit.add(Restrictions.idEq(image_id));
+        crit.add(Restrictions.idEq(imageId));
 
         Image image = (Image) crit.uniqueResult();
         return image != null;
@@ -47,8 +47,8 @@ public class ImageDao {
 
     public void deleteImages() {
         session().createQuery("DELETE FROM Tag").executeUpdate();
-        session().createQuery("DELETE FROM Image_Author").executeUpdate();
-        session().createQuery("DELETE FROM Comment_Author").executeUpdate();
+        session().createQuery("DELETE FROM ImageRating").executeUpdate();
+        session().createQuery("DELETE FROM CommentRating").executeUpdate();
         session().createQuery("DELETE FROM Comment").executeUpdate();
         session().createQuery("DELETE FROM Image").executeUpdate();
     }

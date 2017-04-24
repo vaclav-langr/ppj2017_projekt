@@ -25,10 +25,10 @@ public class CommentRatingDao {
         session().save(rating);
     }
 
-    public boolean exists(Comment comment_id, Author comment_rating_author) {
+    public boolean exists(Comment comment, Author commentRatingAuthor) {
         Criteria crit = session().createCriteria(CommentRating.class);
-        crit.add(Restrictions.eq("comment", comment_id));
-        crit.add(Restrictions.eq("comment_rating_author", comment_rating_author));
+        crit.add(Restrictions.eq("comment", comment));
+        crit.add(Restrictions.eq("commentRatingAuthor", commentRatingAuthor));
 
         CommentRating commentRating = (CommentRating) crit.uniqueResult();
         return commentRating != null;
@@ -40,6 +40,6 @@ public class CommentRatingDao {
     }
 
     public void deleteCommentRatings() {
-        session().createQuery("DELETE FROM Comment_Author").executeUpdate();
+        session().createQuery("DELETE FROM CommentRating").executeUpdate();
     }
 }

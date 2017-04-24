@@ -15,12 +15,12 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name="comment_author")
-    private Author comment_author;
+    private Author commentAuthor;
 
     @Id
     @GeneratedValue
     @Column(name="comment_id")
-    private int comment_id;
+    private int commentId;
 
     @Column(name="created")
     private Date created;
@@ -29,23 +29,23 @@ public class Comment {
     private Date updated;
 
     @Column(name="comment_text")
-    private String comment_text;
+    private String commentText;
 
     public Comment(){}
 
-    public Comment(Image image, String comment_text, Author comment_author) {
+    public Comment(Image image, String commentText, Author commentAuthor) {
         this.image = image;
-        this.comment_text = comment_text;
-        this.comment_author = comment_author;
+        this.commentText = commentText;
+        this.commentAuthor = commentAuthor;
     }
 
-    public Comment(Image image, int comment_id, Date created, Date updated, String comment_text, Author comment_author) {
+    public Comment(Image image, int commentId, Date created, Date updated, String commentText, Author commentAuthor) {
         this.image = image;
-        this.comment_id = comment_id;
+        this.commentId = commentId;
         this.created = created;
         this.updated = updated;
-        this.comment_text = comment_text;
-        this.comment_author = comment_author;
+        this.commentText = commentText;
+        this.commentAuthor = commentAuthor;
     }
 
     public Image getImage() {
@@ -56,12 +56,12 @@ public class Comment {
         this.image = image;
     }
 
-    public int getComment_id() {
-        return comment_id;
+    public int getCommentId() {
+        return commentId;
     }
 
-    public void setComment_id(int comment_id) {
-        this.comment_id = comment_id;
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
     }
 
     public Date getCreated() {
@@ -80,31 +80,31 @@ public class Comment {
         this.updated = updated;
     }
 
-    public String getComment_text() {
-        return comment_text;
+    public String getCommentText() {
+        return commentText;
     }
 
-    public void setComment_text(String comment_text) {
-        this.comment_text = comment_text;
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
-    public Author getComment_author() {
-        return comment_author;
+    public Author getCommentAuthor() {
+        return commentAuthor;
     }
 
-    public void setComment_author(Author comment_author) {
-        this.comment_author = comment_author;
+    public void setCommentAuthor(Author commentAuthor) {
+        this.commentAuthor = commentAuthor;
     }
 
     @Override
     public String toString() {
         return "Comment{" +
                 "image_id=" + image +
-                ", comment_id=" + comment_id +
+                ", commentId=" + commentId +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", comment_text='" + comment_text + '\'' +
-                ", author='" + comment_author + '\'' +
+                ", commentText='" + commentText + '\'' +
+                ", author='" + commentAuthor + '\'' +
                 '}';
     }
 
@@ -120,10 +120,10 @@ public class Comment {
         if (!getImage().equals(temp.getImage())) {
             return false;
         }
-        if (!getComment_author().equals(temp.getComment_author())) {
+        if (!getCommentAuthor().equals(temp.getCommentAuthor())) {
             return false;
         }
-        if (!getComment_text().equals(temp.getComment_text())) {
+        if (!getCommentText().equals(temp.getCommentText())) {
             return false;
         }
         return true;

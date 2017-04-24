@@ -13,31 +13,28 @@ public class Author {
 
     @Id
     @Column(name="user_name")
-    private String user_name;
+    private String userName;
 
     @Column(name="registered")
     private Date registered;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
-    private Set<Image> imageSet;
-
     public Author(){}
 
-    public Author(String user_name) {
-        this.user_name = user_name;
+    public Author(String userName) {
+        this.userName = userName;
     }
 
-    public Author(String user_name, Date registered) {
-        this.user_name = user_name;
+    public Author(String userName, Date registered) {
+        this.userName = userName;
         this.registered = registered;
     }
 
-    public String getUser_name(){
-        return user_name;
+    public String getUserName(){
+        return userName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Date getRegistered(){
@@ -51,7 +48,7 @@ public class Author {
     @Override
     public String toString() {
         return "Author{" +
-                "user_name='" + user_name + '\'' +
+                "user_name='" + userName + '\'' +
                 ", registered=" + registered +
                 '}';
     }
@@ -65,14 +62,6 @@ public class Author {
             return false;
         }
         Author temp = (Author)obj;
-        return getUser_name().equals(temp.getUser_name());
-    }
-
-    public Set<Image> getImageSet() {
-        return imageSet;
-    }
-
-    public void setImageSet(Set<Image> imageSet) {
-        this.imageSet = imageSet;
+        return getUserName().equals(temp.getUserName());
     }
 }

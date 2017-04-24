@@ -27,9 +27,9 @@ public class CommentDao {
         session().save(comment);
     }
 
-    public boolean exists(int comment_id) {
+    public boolean exists(int commentId) {
         Criteria crit = session().createCriteria(Comment.class);
-        crit.add(Restrictions.idEq(comment_id));
+        crit.add(Restrictions.idEq(commentId));
         Comment comment = (Comment) crit.uniqueResult();
         return comment != null;
     }
@@ -45,7 +45,7 @@ public class CommentDao {
     }
 
     public void deleteComments() {
-        session().createQuery("DELETE FROM Comment_Author").executeUpdate();
+        session().createQuery("DELETE FROM CommentRating").executeUpdate();
         session().createQuery("DELETE FROM Comment").executeUpdate();
     }
 }

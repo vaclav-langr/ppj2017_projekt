@@ -63,7 +63,7 @@ public class CommentRatingDaoTests {
         List<CommentRating> commentRatings = commentRatingDao.getAllCommentRatings();
         assertEquals("Comment rating should contain 1 rating", 1, commentRatings.size());
 
-        assertTrue("Comment rating should exist", commentRatingDao.exists(commentRatings.get(0).getComment(), commentRatings.get(0).getComment_rating_author()));
+        assertTrue("Comment rating should exist", commentRatingDao.exists(commentRatings.get(0).getComment(), commentRatings.get(0).getCommentRatingAuthor()));
 
         assertEquals("Comment rating should be equal", commentRating, commentRatings.get(0));
     }

@@ -80,7 +80,7 @@ public class ScenarioTests {
         assertEquals("Comment should be equal", comment, commentDao.getAllComments().get(0));
         comment = commentDao.getAllComments().get(0);
 
-        comment.setComment_text("Testing comment 2");
+        comment.setCommentText("Testing comment 2");
         commentDao.update(comment);
         assertNotEquals("Comment should have updated date", null, commentDao.getAllComments().get(0).getUpdated());
 
