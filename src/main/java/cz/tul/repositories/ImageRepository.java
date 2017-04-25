@@ -14,7 +14,7 @@ import java.util.List;
  * Created by vaclavlangr on 24.04.17.
  */
 @Repository
-public interface ImageRepository extends CrudRepository<Image, Integer>{
+public interface ImageRepository extends CrudRepository<Image, Long>{
 
     @Query("select i from Image as i where i.name=:name")
     public List<Image> findByName(@Param("name") String name);
@@ -26,5 +26,5 @@ public interface ImageRepository extends CrudRepository<Image, Integer>{
     public List<Image> findByTags(@Param("tags") List<String> tags);
 
     @Query("select i from Image as i where i.imageId = :imageId")
-    public Image getImage(@Param("imageId") int imageId);
+    public Image getImage(@Param("imageId") long imageId);
 }

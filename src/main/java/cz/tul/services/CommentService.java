@@ -30,7 +30,7 @@ public class CommentService {
         commentRepository.deleteAll();
     }
 
-    public void deleteComment(int commentId) {
+    public void deleteComment(long commentId) {
         commentRepository.delete(commentId);
     }
 
@@ -42,7 +42,7 @@ public class CommentService {
         return comments;
     }
 
-    public List<Comment> getImageComments(int imageId) {
+    public List<Comment> getImageComments(long imageId) {
         if(imageId <= 0) {
             return null;
         }

@@ -18,7 +18,7 @@ public class Image {
     @Id
     @GeneratedValue
     @Column(name="image_id")
-    private int imageId;
+    private long imageId;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -50,7 +50,7 @@ public class Image {
         this.name = name;
     }
 
-    public Image(int imageId, Author author, String url, String name, Date created, Date updated) {
+    public Image(long imageId, Author author, String url, String name, Date created, Date updated) {
         this.imageId = imageId;
         this.author = author;
         this.url = url;
@@ -59,11 +59,11 @@ public class Image {
         this.updated = updated;
     }
 
-    public int getImageId() {
+    public long getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(long imageId) {
         this.imageId = imageId;
     }
 
@@ -130,11 +130,12 @@ public class Image {
         if (!author.equals(image.author)) return false;
         if (!url.equals(image.url)) return false;
         return name.equals(image.name);
+
     }
 
     @Override
     public int hashCode() {
-        int result = imageId;
+        int result = (int) (imageId ^ (imageId >>> 32));
         result = 31 * result + author.hashCode();
         result = 31 * result + url.hashCode();
         result = 31 * result + name.hashCode();

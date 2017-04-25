@@ -37,4 +37,8 @@ public class AuthorService {
     public void deleteAuthors(){
         authorRepository.deleteAll();
     }
+
+    public void deleteAuthor(Author author) {
+        authorRepository.delete(author);
+    }
 }

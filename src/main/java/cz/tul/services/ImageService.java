@@ -24,7 +24,7 @@ public class ImageService {
         imageRepository.save(image);
     }
 
-    public boolean exists(int imageId) {
+    public boolean exists(long imageId) {
         return imageRepository.exists(imageId);
     }
 
@@ -32,7 +32,7 @@ public class ImageService {
         return StreamSupport.stream(imageRepository.findAll().spliterator(),false).collect(Collectors.toList());
     }
 
-    public Image getImage(int imageId){
+    public Image getImage(long imageId){
         Image image = imageRepository.getImage(imageId);
         if(image == null) {
             return null;
@@ -48,7 +48,7 @@ public class ImageService {
         imageRepository.deleteAll();
     }
 
-    public void deleteImage(int imageId){
+    public void deleteImage(long imageId){
         imageRepository.delete(imageId);
     }
 

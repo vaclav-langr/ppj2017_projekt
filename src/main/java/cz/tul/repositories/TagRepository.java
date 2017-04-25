@@ -16,7 +16,7 @@ import java.util.List;
 public interface TagRepository extends CrudRepository<Tag, TagId>{
 
     @Query("select t from Tag as t where t.imageId = :imageId")
-    public List<Tag> getTagsForImage(@Param("imageId") int imageId);
+    public List<Tag> getTagsForImage(@Param("imageId") long imageId);
 
     @Query("select distinct(t.tag) from Tag as t")
     public List<String> getDistinctTags();

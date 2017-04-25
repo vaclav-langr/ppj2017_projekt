@@ -23,7 +23,7 @@ public class TagService {
         tagRepository.save(tag);
     }
 
-    public List<Tag> getImageTags(int imageId){
+    public List<Tag> getImageTags(long imageId){
         if(imageId <= 0) {
             return null;
         }

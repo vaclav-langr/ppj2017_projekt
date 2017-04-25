@@ -12,8 +12,8 @@ import java.util.List;
  * Created by vaclavlangr on 24.04.17.
  */
 @Repository
-public interface CommentRepository  extends CrudRepository<Comment, Integer> {
+public interface CommentRepository  extends CrudRepository<Comment, Long> {
 
     @Query("select c from Comment as c where c.imageId = :imageId")
-    public List<Comment> getImageComments(@Param("imageId") int imageId);
+    public List<Comment> getImageComments(@Param("imageId") long imageId);
 }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class Tag implements Serializable {
     @Id
     @Column(name="image_id")
-    private int imageId;
+    private long imageId;
 
     @Id
     @Column(name="tag")
@@ -20,16 +20,16 @@ public class Tag implements Serializable {
 
     public Tag(){}
 
-    public Tag(int imageId, String tag) {
+    public Tag(long imageId, String tag) {
         this.imageId = imageId;
         this.tag = tag;
     }
 
-    public int getImageId() {
+    public long getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(long imageId) {
         this.imageId = imageId;
     }
 
@@ -58,11 +58,12 @@ public class Tag implements Serializable {
 
         if (imageId != tag1.imageId) return false;
         return tag.equals(tag1.tag);
+
     }
 
     @Override
     public int hashCode() {
-        int result = imageId;
+        int result = (int) (imageId ^ (imageId >>> 32));
         result = 31 * result + tag.hashCode();
         return result;
     }

@@ -12,36 +12,36 @@ import java.io.Serializable;
 public class CommentRating implements Serializable {
     @Id
     @Column(name="comment_id")
-    private int commentId;
+    private long commentId;
 
     @Id
     @Column(name="comment_rating_author")
-    private int commentRatingAuthor;
+    private String commentRatingAuthor;
 
     @Column(name="value")
     private int value;
 
     public CommentRating(){}
 
-    public CommentRating(int commentId, int commentRatingAuthor, int value) {
+    public CommentRating(long commentId, String commentRatingAuthor, int value) {
         this.commentId = commentId;
         this.commentRatingAuthor = commentRatingAuthor;
         this.value = value;
     }
 
-    public int getCommentId() {
+    public long getCommentId() {
         return commentId;
     }
 
-    public void setCommentId(int commentId) {
+    public void setCommentId(long commentId) {
         this.commentId = commentId;
     }
 
-    public int getCommentRatingAuthor() {
+    public String getCommentRatingAuthor() {
         return commentRatingAuthor;
     }
 
-    public void setCommentRatingAuthor(int commentRatingAuthor) {
+    public void setCommentRatingAuthor(String commentRatingAuthor) {
         this.commentRatingAuthor = commentRatingAuthor;
     }
 
@@ -70,14 +70,15 @@ public class CommentRating implements Serializable {
         CommentRating that = (CommentRating) o;
 
         if (commentId != that.commentId) return false;
-        if (commentRatingAuthor != that.commentRatingAuthor) return false;
-        return value == that.value;
+        if (value != that.value) return false;
+        return commentRatingAuthor.equals(that.commentRatingAuthor);
+
     }
 
     @Override
     public int hashCode() {
-        int result = commentId;
-        result = 31 * result + commentRatingAuthor;
+        int result = (int) (commentId ^ (commentId >>> 32));
+        result = 31 * result + commentRatingAuthor.hashCode();
         result = 31 * result + value;
         return result;
     }

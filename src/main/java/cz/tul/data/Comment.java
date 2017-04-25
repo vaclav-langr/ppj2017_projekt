@@ -10,7 +10,7 @@ import java.util.Date;
 @Table(name="Comment")
 public class Comment {
     @Column(name="image_id")
-    private int imageId;
+    private long imageId;
 
     @Column(name="comment_author")
     private String commentAuthor;
@@ -18,7 +18,7 @@ public class Comment {
     @Id
     @GeneratedValue
     @Column(name="comment_id")
-    private int commentId;
+    private long commentId;
 
     @Column(name="created")
     private Date created;
@@ -31,13 +31,13 @@ public class Comment {
 
     public Comment(){}
 
-    public Comment(int imageId, String commentText, String commentAuthor) {
+    public Comment(long imageId, String commentText, String commentAuthor) {
         this.imageId = imageId;
         this.commentText = commentText;
         this.commentAuthor = commentAuthor;
     }
 
-    public Comment(int imageId, int commentId, Date created, Date updated, String commentText, String commentAuthor) {
+    public Comment(long imageId, long commentId, Date created, Date updated, String commentText, String commentAuthor) {
         this.imageId = imageId;
         this.commentId = commentId;
         this.created = created;
@@ -46,19 +46,19 @@ public class Comment {
         this.commentAuthor = commentAuthor;
     }
 
-    public int getImageId() {
+    public long getImageId() {
         return imageId;
     }
 
-    public void setImageId(int imageId) {
+    public void setImageId(long imageId) {
         this.imageId = imageId;
     }
 
-    public int getCommentId() {
+    public long getCommentId() {
         return commentId;
     }
 
-    public void setCommentId(int commentId) {
+    public void setCommentId(long commentId) {
         this.commentId = commentId;
     }
 
@@ -122,9 +122,9 @@ public class Comment {
 
     @Override
     public int hashCode() {
-        int result = imageId;
+        int result = (int) (imageId ^ (imageId >>> 32));
         result = 31 * result + commentAuthor.hashCode();
-        result = 31 * result + commentId;
+        result = 31 * result + (int) (commentId ^ (commentId >>> 32));
         result = 31 * result + commentText.hashCode();
         return result;
     }

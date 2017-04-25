@@ -12,36 +12,36 @@ import java.io.Serializable;
 public class ImageRating implements Serializable {
     @Id
     @Column(name="image_id")
-    private int imageId;
+    private long imageId;
 
     @Id
     @Column(name="image_rating_author")
-    private int imageRatingAuthor;
+    private String imageRatingAuthor;
 
     @Column(name="value")
     private int value;
 
     public ImageRating() {}
 
-    public ImageRating(int imageId, int imageRatingAuthor, int value) {
+    public ImageRating(long imageId, String imageRatingAuthor, int value) {
         this.imageId = imageId;
         this.imageRatingAuthor = imageRatingAuthor;
         this.value = value;
     }
 
-    public int getImageId() {
+    public long getImageId() {
         return imageId;
     }
 
-    public void setImage(int imageId) {
+    public void setImageId(long imageId) {
         this.imageId = imageId;
     }
 
-    public int getImageRatingAuthor() {
+    public String getImageRatingAuthor() {
         return imageRatingAuthor;
     }
 
-    public void setImageRatingAuthor(int imageRatingAuthor) {
+    public void setImageRatingAuthor(String imageRatingAuthor) {
         this.imageRatingAuthor = imageRatingAuthor;
     }
 
@@ -70,14 +70,15 @@ public class ImageRating implements Serializable {
         ImageRating that = (ImageRating) o;
 
         if (imageId != that.imageId) return false;
-        if (imageRatingAuthor != that.imageRatingAuthor) return false;
-        return value == that.value;
+        if (value != that.value) return false;
+        return imageRatingAuthor.equals(that.imageRatingAuthor);
+
     }
 
     @Override
     public int hashCode() {
-        int result = imageId;
-        result = 31 * result + imageRatingAuthor;
+        int result = (int) (imageId ^ (imageId >>> 32));
+        result = 31 * result + imageRatingAuthor.hashCode();
         result = 31 * result + value;
         return result;
     }
