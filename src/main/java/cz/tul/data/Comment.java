@@ -1,6 +1,7 @@
 package cz.tul.data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -21,10 +22,10 @@ public class Comment {
     private long commentId;
 
     @Column(name="created")
-    private Date created;
+    private LocalDateTime created;
 
     @Column(name="updated")
-    private Date updated;
+    private LocalDateTime updated;
 
     @Column(name="comment_text")
     private String commentText;
@@ -37,7 +38,7 @@ public class Comment {
         this.commentAuthor = commentAuthor;
     }
 
-    public Comment(long imageId, long commentId, Date created, Date updated, String commentText, String commentAuthor) {
+    public Comment(long imageId, long commentId, LocalDateTime created, LocalDateTime updated, String commentText, String commentAuthor) {
         this.imageId = imageId;
         this.commentId = commentId;
         this.created = created;
@@ -62,19 +63,19 @@ public class Comment {
         this.commentId = commentId;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public LocalDateTime getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
     }
 
@@ -131,12 +132,12 @@ public class Comment {
 
     @PrePersist
     public void prePersist(){
-        setCreated(new Date());
-        setUpdated(new Date());
+        setCreated(LocalDateTime.now());
+        setUpdated(LocalDateTime.now());
     }
 
     @PreUpdate
     public void preUpdate(){
-        setUpdated(new Date());
+        setUpdated(LocalDateTime.now());
     }
 }

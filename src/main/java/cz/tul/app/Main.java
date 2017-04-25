@@ -4,6 +4,7 @@ import cz.tul.data.*;
 import cz.tul.repositories.AuthorRepository;
 import cz.tul.repositories.ImageRepository;
 import cz.tul.repositories.TagRepository;
+import cz.tul.services.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -34,24 +35,13 @@ public class Main {
         return entityManagerFactory.unwrap(SessionFactory.class);
     }
 
-
     public static void main(String[] args) throws Exception {
 
         SpringApplication app = new SpringApplication(Main.class);
         ApplicationContext ctx = app.run(args);
 
-        AuthorRepository authorRepository = ctx.getBean(AuthorRepository.class);
-        Author author = authorRepository.save(new Author("pepa"));
-
-        ImageRepository imageRepository = ctx.getBean(ImageRepository.class);
-        Image image = imageRepository.save(new Image(author, "url", "name"));
-
-        TagRepository tagRepository = ctx.getBean(TagRepository.class);
-        tagRepository.save(new Tag(image.getImageId(), "tag1"));
-
-        List<String> tags = new ArrayList<String>();
-        tags.add("tag1");
-        System.out.println(imageRepository.findByTags(tags));
+        ImageService imageService = ctx.getBean(ImageService.class);
+        System.out.println(imageService.getAllImages());
     }
 
 }

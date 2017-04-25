@@ -1,6 +1,9 @@
 package cz.tul.data;
 
+import org.springframework.cglib.core.Local;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,7 +19,7 @@ public class Author {
     private String userName;
 
     @Column(name="registered")
-    private Date registered;
+    private LocalDateTime registered;
 
     public Author(){}
 
@@ -24,7 +27,7 @@ public class Author {
         this.userName = userName;
     }
 
-    public Author(String userName, Date registered) {
+    public Author(String userName, LocalDateTime registered) {
         this.userName = userName;
         this.registered = registered;
     }
@@ -37,11 +40,11 @@ public class Author {
         this.userName = userName;
     }
 
-    public Date getRegistered(){
+    public LocalDateTime getRegistered(){
         return registered;
     }
 
-    public void setRegistered(Date registered){
+    public void setRegistered(LocalDateTime registered){
         this.registered = registered;
     }
 
@@ -73,6 +76,6 @@ public class Author {
 
     @PrePersist
     public void prePersist(){
-        setRegistered(new Date());
+        setRegistered(LocalDateTime.now());
     }
 }

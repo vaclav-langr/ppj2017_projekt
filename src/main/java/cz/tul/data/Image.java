@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -32,10 +33,10 @@ public class Image {
     private String name;
 
     @Column(name="created")
-    private Date created;
+    private LocalDateTime created;
 
     @Column(name="updated")
-    private Date updated;
+    private LocalDateTime updated;
 
     public Image(){}
 
@@ -50,7 +51,7 @@ public class Image {
         this.name = name;
     }
 
-    public Image(long imageId, Author author, String url, String name, Date created, Date updated) {
+    public Image(long imageId, Author author, String url, String name, LocalDateTime created, LocalDateTime updated) {
         this.imageId = imageId;
         this.author = author;
         this.url = url;
@@ -91,19 +92,19 @@ public class Image {
         this.name = name;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public LocalDateTime getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
     }
 
@@ -144,12 +145,12 @@ public class Image {
 
     @PrePersist
     public void prePersist(){
-        setCreated(new Date());
-        setUpdated(new Date());
+        setCreated(LocalDateTime.now());
+        setUpdated(LocalDateTime.now());
     }
 
     @PreUpdate
     public void preUpdate() {
-        setUpdated(new Date());
+        setUpdated(LocalDateTime.now());
     }
 }
