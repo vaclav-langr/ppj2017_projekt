@@ -63,28 +63,22 @@ public class CommentRating implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        CommentRating temp = (CommentRating)obj;
-        if (getCommentId() != temp.getCommentId()) {
-            return false;
-        }
-        if (getCommentRatingAuthor() != temp.getCommentRatingAuthor()) {
-            return false;
-        }
-        if (getValue() != temp.getValue()) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CommentRating that = (CommentRating) o;
+
+        if (commentId != that.commentId) return false;
+        if (commentRatingAuthor != that.commentRatingAuthor) return false;
+        return value == that.value;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int result = commentId;
+        result = 31 * result + commentRatingAuthor;
+        result = 31 * result + value;
+        return result;
     }
 }

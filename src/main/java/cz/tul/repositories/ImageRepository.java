@@ -22,6 +22,9 @@ public interface ImageRepository extends CrudRepository<Image, Integer>{
     @Query("select i from Image as i where i.author=:author")
     public List<Image> findByAuthor(@Param("author") Author author);
 
-    @Query("select i from Image as i where i.imageId in (select distinct(t.imageId) from Tag as t where t.tag in :tags)")
+    @Query("select i from Image as i where i.imageId in (select distinct(t.imageId) from Tag as t where t.tag = :tags)")
     public List<Image> findByTags(@Param("tags") List<String> tags);
+
+    @Query("select i from Image as i where i.imageId = :imageId")
+    public Image getImage(@Param("imageId") int imageId);
 }

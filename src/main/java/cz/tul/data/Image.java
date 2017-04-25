@@ -1,10 +1,11 @@
 package cz.tul.data;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Created by vaclavlangr on 03.04.17.
@@ -19,6 +20,7 @@ public class Image {
     private int imageId;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name="image_author")
     private Author author;
 
@@ -117,34 +119,25 @@ public class Image {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        Image temp = (Image)obj;
-        if (!getUrl().equals(temp.getUrl())){
-            return false;
-        }
-        if (getName() == null) {
-            if (temp.getName() != null) {
-                return false;
-            }
-        } else {
-            if (temp.getName() == null) {
-                return false;
-            } else {
-                if (!getName().equals(temp.getName())) {
-                    return false;
-                }
-            }
-        }
-        if (!getAuthor().equals(temp.getAuthor())) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Image image = (Image) o;
+
+        if (imageId != image.imageId) return false;
+        if (!author.equals(image.author)) return false;
+        if (!url.equals(image.url)) return false;
+        return name.equals(image.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = imageId;
+        result = 31 * result + author.hashCode();
+        result = 31 * result + url.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
     }
 
     @PrePersist

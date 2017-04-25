@@ -109,24 +109,27 @@ public class Comment {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        Comment temp = (Comment)obj;
-        if (!getImage().equals(temp.getImage())) {
-            return false;
-        }
-        if (!getCommentAuthor().equals(temp.getCommentAuthor())) {
-            return false;
-        }
-        if (!getCommentText().equals(temp.getCommentText())) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment = (Comment) o;
+
+        if (commentId != comment.commentId) return false;
+        if (!image.equals(comment.image)) return false;
+        if (!commentAuthor.equals(comment.commentAuthor)) return false;
+        return commentText.equals(comment.commentText);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = image.hashCode();
+        result = 31 * result + commentAuthor.hashCode();
+        result = 31 * result + commentId;
+        result = 31 * result + created.hashCode();
+        result = 31 * result + (updated != null ? updated.hashCode() : 0);
+        result = 31 * result + commentText.hashCode();
+        return result;
     }
 
     @PrePersist

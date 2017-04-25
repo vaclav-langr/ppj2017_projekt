@@ -48,21 +48,27 @@ public class Author {
     @Override
     public String toString() {
         return "Author{" +
-                "user_name='" + userName + '\'' +
+                "userName='" + userName + '\'' +
                 ", registered=" + registered +
                 '}';
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        Author temp = (Author)obj;
-        return getUserName().equals(temp.getUserName());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Author author = (Author) o;
+
+        if (!userName.equals(author.userName)) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userName.hashCode();
+        result = 31 * result + (registered != null ? registered.hashCode() : 0);
+        return result;
     }
 
     @PrePersist

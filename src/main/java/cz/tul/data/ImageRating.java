@@ -63,28 +63,22 @@ public class ImageRating implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        ImageRating temp = (ImageRating)obj;
-        if (getImageId() != temp.getImageId()) {
-            return false;
-        }
-        if (getImageRatingAuthor() != temp.getImageRatingAuthor()) {
-            return false;
-        }
-        if (getValue() != temp.getValue()) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ImageRating that = (ImageRating) o;
+
+        if (imageId != that.imageId) return false;
+        if (imageRatingAuthor != that.imageRatingAuthor) return false;
+        return value == that.value;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int result = imageId;
+        result = 31 * result + imageRatingAuthor;
+        result = 31 * result + value;
+        return result;
     }
 }

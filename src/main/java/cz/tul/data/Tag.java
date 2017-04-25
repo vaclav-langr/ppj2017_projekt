@@ -11,7 +11,7 @@ import java.io.Serializable;
 @IdClass(TagId.class)
 public class Tag implements Serializable {
     @Id
-    @JoinColumn(name="image_id")
+    @Column(name="image_id")
     private int imageId;
 
     @Id
@@ -50,25 +50,20 @@ public class Tag implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        Tag temp = (Tag)obj;
-        if (getImageId() != temp.getImageId()) {
-            return false;
-        }
-        if (!getTag().equals(temp.getTag())) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tag tag1 = (Tag) o;
+
+        if (imageId != tag1.imageId) return false;
+        return tag.equals(tag1.tag);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int result = imageId;
+        result = 31 * result + tag.hashCode();
+        return result;
     }
 }
