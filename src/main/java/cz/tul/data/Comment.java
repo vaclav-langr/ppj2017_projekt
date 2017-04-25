@@ -9,13 +9,11 @@ import java.util.Date;
 @Entity
 @Table(name="Comment")
 public class Comment {
-    @ManyToOne
-    @JoinColumn(name="image_id")
-    private Image image;
+    @Column(name="image_id")
+    private int imageId;
 
-    @ManyToOne
-    @JoinColumn(name="comment_author")
-    private Author commentAuthor;
+    @Column(name="comment_author")
+    private String commentAuthor;
 
     @Id
     @GeneratedValue
@@ -33,14 +31,14 @@ public class Comment {
 
     public Comment(){}
 
-    public Comment(Image image, String commentText, Author commentAuthor) {
-        this.image = image;
+    public Comment(int imageId, String commentText, String commentAuthor) {
+        this.imageId = imageId;
         this.commentText = commentText;
         this.commentAuthor = commentAuthor;
     }
 
-    public Comment(Image image, int commentId, Date created, Date updated, String commentText, Author commentAuthor) {
-        this.image = image;
+    public Comment(int imageId, int commentId, Date created, Date updated, String commentText, String commentAuthor) {
+        this.imageId = imageId;
         this.commentId = commentId;
         this.created = created;
         this.updated = updated;
@@ -48,12 +46,12 @@ public class Comment {
         this.commentAuthor = commentAuthor;
     }
 
-    public Image getImage() {
-        return image;
+    public int getImageId() {
+        return imageId;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     public int getCommentId() {
@@ -88,18 +86,18 @@ public class Comment {
         this.commentText = commentText;
     }
 
-    public Author getCommentAuthor() {
+    public String getCommentAuthor() {
         return commentAuthor;
     }
 
-    public void setCommentAuthor(Author commentAuthor) {
+    public void setCommentAuthor(String commentAuthor) {
         this.commentAuthor = commentAuthor;
     }
 
     @Override
     public String toString() {
         return "Comment{" +
-                "image_id=" + image +
+                "image_id=" + imageId +
                 ", commentId=" + commentId +
                 ", created=" + created +
                 ", updated=" + updated +
@@ -115,19 +113,18 @@ public class Comment {
 
         Comment comment = (Comment) o;
 
+        if (imageId != comment.imageId) return false;
         if (commentId != comment.commentId) return false;
-        if (!image.equals(comment.image)) return false;
         if (!commentAuthor.equals(comment.commentAuthor)) return false;
         return commentText.equals(comment.commentText);
+
     }
 
     @Override
     public int hashCode() {
-        int result = image.hashCode();
+        int result = imageId;
         result = 31 * result + commentAuthor.hashCode();
         result = 31 * result + commentId;
-        result = 31 * result + created.hashCode();
-        result = 31 * result + (updated != null ? updated.hashCode() : 0);
         result = 31 * result + commentText.hashCode();
         return result;
     }

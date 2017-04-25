@@ -24,15 +24,24 @@ public class TagService {
     }
 
     public List<Tag> getImageTags(int imageId){
-        return StreamSupport.stream(tagRepository.getTagsForImage(imageId).spliterator(), false).collect(Collectors.toList());
+        if(imageId <= 0) {
+            return null;
+        }
+
+        List<Tag> tags = StreamSupport.stream(tagRepository.getTagsForImage(imageId).spliterator(), false).collect(Collectors.toList());
+
+        if(tags.size() == 0) {
+            return null;
+        }
+        return tags;
     }
 
     public List<String> getUniqueTags(){
-        return StreamSupport.stream(tagRepository.getDistinctTags().spliterator(), false).collect(Collectors.toList());
-    }
-
-    public void saveOrUpdate(Tag tag){
-        tagRepository.save(tag);
+        List<String> tags = StreamSupport.stream(tagRepository.getDistinctTags().spliterator(), false).collect(Collectors.toList());
+        if(tags.size() == 0) {
+            return null;
+        }
+        return tags;
     }
 
     public void deleteTag(TagId tagId){

@@ -55,6 +55,7 @@ public class ImageServiceTest {
     @Test
     public void testCreateRetrieve() {
         authorService.create(author1);
+        authorService.create(author2);
         imageService.saveOrUpdate(image1);
 
         List<Image> images1 = imageService.getAllImages();
@@ -150,7 +151,7 @@ public class ImageServiceTest {
         authorService.create(author1);
         imageService.saveOrUpdate(image1);
         Tag tag1 = new Tag(image1.getImageId(), "testTag");
-        tagService.saveOrUpdate(tag1);
+        tagService.create(tag1);
 
         List<String> tags1 = new ArrayList<>();
         tags1.add(tag1.getTag());

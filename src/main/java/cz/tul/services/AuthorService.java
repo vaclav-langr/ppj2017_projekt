@@ -27,7 +27,11 @@ public class AuthorService {
     }
 
     public List<Author> getAllAuthors(){
-        return StreamSupport.stream(authorRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        List<Author> authors = StreamSupport.stream(authorRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        if(authors.size() == 0) {
+            return null;
+        }
+        return authors;
     }
 
     public void deleteAuthors(){

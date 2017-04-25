@@ -1,5 +1,6 @@
 package cz.tul.data;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.transaction.annotation.Transactional;
