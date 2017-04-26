@@ -72,6 +72,7 @@ public class CommentRatingServiceTest {
         commentRating1.setCommentId(comment1.getCommentId());
         commentRatingService.create(commentRating1);
         List<CommentRating> commentRatings = commentRatingService.getAllRatings();
+        assertNotNull("Should not be null", commentRatings);
         assertEquals("Should be 1 comment rating", 1, commentRatings.size());
         assertEquals("Comment rating should match", commentRating1, commentRatings.get(0));
     }
@@ -88,11 +89,13 @@ public class CommentRatingServiceTest {
         commentRating1.setCommentId(comment1.getCommentId());
         commentRatingService.create(commentRating1);
         List<CommentRating> commentRatings1 = commentRatingService.getAllRatings();
+        assertNotNull("Should not be null", commentRatings1);
         assertEquals("Should be 1 comment rating", 1, commentRatings1.size());
 
         commentRating1.setValue(-1);
         commentRatingService.updateCommentRating(commentRating1);
         List<CommentRating> commentRatings2 = commentRatingService.getAllRatings();
+        assertNotNull("Should not be null", commentRatings2);
         assertEquals("Should be 1 comment rating", 1, commentRatings2.size());
 
         assertNotEquals("Should not equal", commentRatings1, commentRatings2);
@@ -110,6 +113,7 @@ public class CommentRatingServiceTest {
         commentRating1.setCommentId(comment1.getCommentId());
         commentRatingService.create(commentRating1);
         List<CommentRating> commentRatings1 = commentRatingService.getAllRatings();
+        assertNotNull("Should not be null", commentRatings1);
         assertEquals("Should be 1 comment rating", 1, commentRatings1.size());
 
         commentRatingService.deleteCommentRating(commentRating1);
@@ -131,6 +135,7 @@ public class CommentRatingServiceTest {
         commentRating1.setCommentId(comment1.getCommentId());
         commentRatingService.create(commentRating1);
         List<CommentRating> commentRatings1 = commentRatingService.getCommentRatings(comment1.getCommentId());
+        assertNotNull("Should not be null", commentRatings1);
         assertEquals("Should be 1 comment rating", 1, commentRatings1.size());
 
         List<CommentRating> commentRatings2 = commentRatingService.getCommentRatings(comment2.getCommentId());

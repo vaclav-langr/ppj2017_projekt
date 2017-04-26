@@ -59,11 +59,13 @@ public class ImageServiceTest {
         imageService.saveOrUpdate(image1);
 
         List<Image> images1 = imageService.getAllImages();
+        assertNotNull("Should not be null", images1);
         assertEquals("Should be 1 image.", 1, images1.size());
         assertEquals("Retrieved should be equal inserted", image1, images1.get(0));
 
         imageService.saveOrUpdate(image2);
         List<Image> images2 = imageService.getAllImages();
+        assertNotNull("Should not be null", images2);
         assertEquals("Should be 2 images.", 2, images2.size());
     }
 
@@ -107,6 +109,7 @@ public class ImageServiceTest {
         imageService.saveOrUpdate(image2);
 
         Image retrieved1 = imageService.getImage(image1.getImageId());
+        assertNotNull("Should not be null", retrieved1);
         assertEquals("Images should match", image1, retrieved1);
     }
 
@@ -119,9 +122,11 @@ public class ImageServiceTest {
         imageService.saveOrUpdate(image2);
 
         List<Image> images1 = imageService.getImagesByAuthor(author1);
+        assertNotNull("Should not be null", images1);
         assertEquals("Author1 should have 1 image", 1, images1.size());
 
         List<Image> images2 = imageService.getImagesByAuthor(author2);
+        assertNotNull("Should not be null", images2);
         assertEquals("Author2 should have 1 image", 1, images2.size());
 
         List<Image> images3 = imageService.getImagesByAuthor(author3);
@@ -137,9 +142,11 @@ public class ImageServiceTest {
         imageService.create(image2);
 
         List<Image> images1 = imageService.getImagesByName(image1.getName());
+        assertNotNull("Should not be null", images1);
         assertEquals("Should be 1 for name: " + image1.getName(), 1, images1.size());
 
         List<Image> images2 = imageService.getImagesByName(image2.getName());
+        assertNotNull("Should not be null", images2);
         assertEquals("Should be 1 for name: " + image2.getName(), 1, images2.size());
 
         List<Image> images3 = imageService.getImagesByName("random");
@@ -156,6 +163,7 @@ public class ImageServiceTest {
         List<String> tags1 = new ArrayList<>();
         tags1.add(tag1.getTag());
         List<Image> images1 = imageService.getImagesByTags(tags1);
+        assertNotNull("Should not be null", images1);
         assertEquals("For tag " + tag1.getTag() + " should be 1 image", 1, images1.size());
 
         List<String> tags2 = new ArrayList<>();

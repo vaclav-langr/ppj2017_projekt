@@ -62,6 +62,7 @@ public class CommentServiceTest {
         comment1.setImageId(image1.getImageId());
         commentService.saveOrUpdate(comment1);
         List<Comment> comments1 = commentService.getAllComments();
+        assertNotNull("Should not be null", comments1);
         assertEquals("Should be 1 comment", 1, comments1.size());
         assertEquals("Retrieved comment should match", comment1, comments1.get(0));
     }
@@ -77,11 +78,13 @@ public class CommentServiceTest {
 
         commentService.saveOrUpdate(comment1);
         List<Comment> comments1 = commentService.getAllComments();
+        assertNotNull("Should not be null", comments1);
         assertEquals("Should be 1 comment", 1, comments1.size());
 
         comment1.setCommentText("newText");
         commentService.saveOrUpdate(comment1);
         List<Comment> comments2 = commentService.getAllComments();
+        assertNotNull("Should not be null", comments2);
         assertEquals("Should be 1 comment", 1, comments2.size());
 
         assertNotEquals("Should not match", comments1, comments2);
@@ -98,6 +101,7 @@ public class CommentServiceTest {
 
         commentService.saveOrUpdate(comment1);
         List<Comment> comments1 = commentService.getAllComments();
+        assertNotNull("Should not be null", comments1);
         assertEquals("Should be 1 comment", 1, comments1.size());
 
         commentService.deleteComment(comments1.get(0).getCommentId());
@@ -117,6 +121,7 @@ public class CommentServiceTest {
 
         commentService.saveOrUpdate(comment1);
         List<Comment> comments1 = commentService.getImageComments(image1.getImageId());
+        assertNotNull("Should not be null", comments1);
         assertEquals("Should be 1 comment", 1, comments1.size());
 
         List<Comment> comments2 = commentService.getImageComments(image2.getImageId());

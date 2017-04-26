@@ -67,6 +67,7 @@ public class TagServiceTest {
         tag1.setImageId(image1.getImageId());
         tagService.create(tag1);
         List<Tag> tags1 = tagService.getImageTags(image1.getImageId());
+        assertNotNull("Should not be null", tags1);
         assertEquals("Should be 1 tag", 1, tags1.size());
         assertEquals("Retrieved tag should match", tag1, tags1.get(0));
     }
@@ -81,6 +82,7 @@ public class TagServiceTest {
         tag1.setImageId(image1.getImageId());
         tagService.create(tag1);
         List<Tag> retrieved1 = tagService.getImageTags(image1.getImageId());
+        assertNotNull("Should not be null", retrieved1);
         assertEquals("Should be 1 tag", 1, retrieved1.size());
 
         PersistenceUnitUtil util = entityManagerFactory.getPersistenceUnitUtil();
@@ -105,6 +107,7 @@ public class TagServiceTest {
         tagService.create(tag1);
 
         List<String> tags = tagService.getUniqueTags();
+        assertNotNull("Should not be null", tags);
         assertEquals("Should be 1 tag", 1, tags.size());
     }
 }

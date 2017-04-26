@@ -63,6 +63,7 @@ public class ImageRatingServiceTest {
         imageRatingService.create(imageRating1);
 
         List<ImageRating> imageRatings = imageRatingService.getAllRatings();
+        assertNotNull("Should not be null", imageRatings);
         assertEquals("Should be 1 image rating", 1, imageRatings.size());
         assertEquals("Image rating should match", imageRating1, imageRatings.get(0));
     }
@@ -78,12 +79,14 @@ public class ImageRatingServiceTest {
         imageRatingService.create(imageRating1);
 
         List<ImageRating> imageRatings1 = imageRatingService.getAllRatings();
+        assertNotNull("Should not be null", imageRatings1);
         assertEquals("Should be 1 image rating", 1, imageRatings1.size());
 
         imageRating1.setValue(-1);
         imageRatingService.update(imageRating1);
 
         List<ImageRating> imageRatings2 = imageRatingService.getAllRatings();
+        assertNotNull("Should not be null", imageRatings2);
         assertEquals("Should be 1 image rating", 1, imageRatings2.size());
 
         assertNotEquals("Image ratings should not equal", imageRatings1, imageRatings2);
@@ -100,6 +103,7 @@ public class ImageRatingServiceTest {
         imageRatingService.create(imageRating1);
 
         List<ImageRating> imageRatings1 = imageRatingService.getAllRatings();
+        assertNotNull("Should not be null", imageRatings1);
         assertEquals("Should be 1 image rating", 1, imageRatings1.size());
 
         imageRatingService.deleteImageRating(imageRating1);
@@ -118,6 +122,7 @@ public class ImageRatingServiceTest {
         imageRatingService.create(imageRating1);
 
         List<ImageRating> imageRatings1 = imageRatingService.getImageRatings(image1.getImageId());
+        assertNotNull("Should not be null", imageRatings1);
         assertEquals("Should be 1 image rating", 1, imageRatings1.size());
 
         List<ImageRating> imageRatings2 = imageRatingService.getImageRatings(image2.getImageId());

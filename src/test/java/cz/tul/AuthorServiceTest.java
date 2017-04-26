@@ -43,14 +43,14 @@ public class AuthorServiceTest {
         authorService.create(author1);
 
         List<Author> authors1 = authorService.getAllAuthors();
-
+        assertNotNull("Should not be null", authors1);
         assertEquals("One author should have been created and retrieved", 1, authors1.size());
         assertEquals("Inserted author should match retrieved", author1, authors1.get(0));
 
         authorService.create(author2);
 
         List<Author> authors2 = authorService.getAllAuthors();
-
+        assertNotNull("Should not be null", authors2.size());
         assertEquals("Should be two retrieved authors", 2, authors2.size());
     }
 
