@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -88,7 +89,15 @@ public class ImageService {
             return null;
         }
 
-        List<Image> images = imageRepository.findByTags(tags);
+        List<Long> imageIds = imageRepository.findByTags(tags);
+        if(imageIds.size() == 0) {
+            return null;
+        }
+
+        List<Image> images = new ArrayList<>();
+        for (long id: imageIds) {
+            images.add(imageRepository.getImage(id));
+        }
 
         if(images.size() == 0) {
             return null;

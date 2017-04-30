@@ -158,10 +158,12 @@ public class ImageServiceTest {
         authorService.create(author1);
         imageService.saveOrUpdate(image1);
         Tag tag1 = new Tag(image1.getImageId(), "testTag");
+        Tag tag2 = new Tag(image1.getImageId(), "testTag2");
         tagService.create(tag1);
 
         List<String> tags1 = new ArrayList<>();
         tags1.add(tag1.getTag());
+        tags1.add(tag2.getTag());
         List<Image> images1 = imageService.getImagesByTags(tags1);
         assertNotNull("Should not be null", images1);
         assertEquals("For tag " + tag1.getTag() + " should be 1 image", 1, images1.size());

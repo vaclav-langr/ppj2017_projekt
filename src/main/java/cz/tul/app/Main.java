@@ -40,8 +40,12 @@ public class Main {
         SpringApplication app = new SpringApplication(Main.class);
         ApplicationContext ctx = app.run(args);
 
-        ImageService imageService = ctx.getBean(ImageService.class);
-        System.out.println(imageService.getAllImages());
+        AuthorService authorService = ctx.getBean(AuthorService.class);
+        Author author = new Author("pepa");
+        authorService.create(author);
+        System.out.println(author);
+        List<Author> authors = authorService.getAllAuthors();
+        System.out.println(authors);
     }
 
 }

@@ -40,11 +40,11 @@ public class Author {
         this.userName = userName;
     }
 
-    public LocalDateTime getRegistered(){
+    public LocalDateTime getRegistered() {
         return registered;
     }
 
-    public void setRegistered(LocalDateTime registered){
+    public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
     }
 
