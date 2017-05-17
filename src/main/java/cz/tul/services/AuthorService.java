@@ -34,11 +34,15 @@ public class AuthorService {
         return authors;
     }
 
+    public Author getAuthor(String username) {
+        return authorRepository.findOne(username);
+    }
+
     public void deleteAuthors(){
         authorRepository.deleteAll();
     }
 
-    public void deleteAuthor(Author author) {
-        authorRepository.delete(author);
+    public void deleteAuthor(String username) {
+        authorRepository.delete(username);
     }
 }
