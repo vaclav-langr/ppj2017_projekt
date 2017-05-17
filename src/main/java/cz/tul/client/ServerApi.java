@@ -2,6 +2,7 @@ package cz.tul.client;
 
 import cz.tul.data.Author;
 import cz.tul.data.Image;
+import cz.tul.data.Tag;
 import retrofit.http.*;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface ServerApi {
     public static final String AUTHOR_PATH = AUTHORS_PATH + "/{username}" ;
     public static final String IMAGES_PATH = "/images";
     public static final String IMAGE_PATH = IMAGES_PATH + "/{id}";
+    public static final String TAGS_PATH = IMAGE_PATH + "/tags";
+    public static final String TAG_PATH = TAGS_PATH + "/{tag}";
 
     @GET(AUTHORS_PATH)
     public List<Author> showAuthors();
@@ -43,4 +46,15 @@ public interface ServerApi {
 
     @DELETE(IMAGE_PATH)
     public void deleteImage(@Path("id") Long id);
+
+    
+
+    @GET(TAGS_PATH)
+    public List<Tag> showImageTags(@Path("id") Long imageId);
+
+    @POST(TAGS_PATH)
+    public void addImageTag(@Path("id") Long imageId, @Body String tag);
+
+    @DELETE(TAG_PATH)
+    public void deleteImageTag(@Path("id") Long imageId, @Path("tag") String tag);
 }

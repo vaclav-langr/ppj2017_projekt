@@ -6,6 +6,8 @@ import cz.tul.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnitUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -18,6 +20,9 @@ import java.util.stream.StreamSupport;
 public class TagService {
     @Autowired
     TagRepository tagRepository;
+
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
 
     public void create(Tag tag){
         tagRepository.save(tag);
@@ -44,8 +49,25 @@ public class TagService {
         return tags;
     }
 
+    public boolean exists(Tag tag) {
+        PersistenceUnitUtil util = entityManagerFactory.getPersistenceUnitUtil();
+        TagId tagId = (TagId) util.getIdentifier(tag);
+        return tagRepository.exists(tagId);
+    }
+
+    public void deleteTag(Tag tag) {
+        PersistenceUnitUtil util = entityManagerFactory.getPersistenceUnitUtil();
+        TagId tagId = (TagId) util.getIdentifier(tag);
+        tagRepository.delete(tagId);
+    }
+
     public void deleteTag(TagId tagId){
         tagRepository.delete(tagId);
+    }
+
+    public void deleteTagsByImageId(Long imageId) {
+        List<Tag> tags = tagRepository.getTagsForImage(imageId);
+        tagRepository.delete(tags);
     }
 
     public void deleteTags(){

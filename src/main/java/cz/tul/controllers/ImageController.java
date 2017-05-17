@@ -65,13 +65,13 @@ public class ImageController {
         return new ResponseEntity<>(image, HttpStatus.OK);
     }
 
-    @RequestMapping(value = ServerApi.IMAGES_PATH, method = RequestMethod.PUT)
+    @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.PUT)
     public ResponseEntity<Image> updateImage(@RequestBody Image image, @PathVariable("id") Long id) {
         imageService.saveOrUpdate(image);
         return new ResponseEntity<>(image, HttpStatus.OK);
     }
 
-    @RequestMapping(value = ServerApi.AUTHOR_PATH, method = RequestMethod.DELETE)
+    @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.DELETE)
     public ResponseEntity<Image> deleteImage(@PathVariable("id") Long id) {
         if(imageService.exists(id)) {
             tagService.deleteTagsByImageId(id);
