@@ -30,6 +30,11 @@ public class CommentService {
         commentRepository.deleteAll();
     }
 
+    public void deleteCommentsByImageId(Long imageId) {
+        List<Comment> comments = commentRepository.getImageComments(imageId);
+        commentRepository.delete(comments);
+    }
+
     public void deleteComment(long commentId) {
         commentRepository.delete(commentId);
     }
@@ -52,5 +57,19 @@ public class CommentService {
             return null;
         }
         return comments;
+    }
+
+    public boolean hasComment(String username) {
+        if(username.isEmpty()) {
+            return false;
+        }
+        List<Comment> images = commentRepository.findByUsername(username);
+        if(images == null) {
+            return false;
+        }
+        if(images.size() == 0) {
+            return false;
+        }
+        return true;
     }
 }

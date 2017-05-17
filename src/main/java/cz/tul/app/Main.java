@@ -36,16 +36,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-
-        SpringApplication app = new SpringApplication(Main.class);
-        ApplicationContext ctx = app.run(args);
-
-        AuthorService authorService = ctx.getBean(AuthorService.class);
-        Author author = new Author("pepa");
-        authorService.create(author);
-        System.out.println(author);
-        List<Author> authors = authorService.getAllAuthors();
-        System.out.println(authors);
+        SpringApplication.run(Main.class, args);
     }
 
 }

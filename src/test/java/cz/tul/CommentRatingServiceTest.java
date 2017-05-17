@@ -46,7 +46,7 @@ public class CommentRatingServiceTest {
 
     @Before
     public void init() {
-        commentRatingService.deleteCommentRatings();
+        commentRatingService.deleteAllCommentRatings();
         commentService.deleteComments();
         imageService.deleteImages();
         authorService.deleteAuthors();

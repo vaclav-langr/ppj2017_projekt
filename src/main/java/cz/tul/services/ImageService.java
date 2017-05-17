@@ -104,4 +104,18 @@ public class ImageService {
         }
         return images;
     }
+
+    public boolean hasImage(String username) {
+        if(username.isEmpty()) {
+            return false;
+        }
+        List<Image> images = imageRepository.findByUsername(username);
+        if(images == null) {
+            return false;
+        }
+        if(images.size() == 0) {
+            return false;
+        }
+        return true;
+    }
 }

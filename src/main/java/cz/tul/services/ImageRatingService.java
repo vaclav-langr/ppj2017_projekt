@@ -51,7 +51,26 @@ public class ImageRatingService {
         imageRatingRepository.deleteAll();
     }
 
+    public void deleteImageRatingsByImageId(Long imageId) {
+        List<ImageRating> imageRatings = imageRatingRepository.getImageRatings(imageId);
+        imageRatingRepository.delete(imageRatings);
+    }
+
     public void deleteImageRating(ImageRating imageRating) {
         imageRatingRepository.delete(imageRating);
+    }
+
+    public boolean hasRating(String username) {
+        if(username.isEmpty()) {
+            return false;
+        }
+        List<ImageRating> images = imageRatingRepository.findByUsername(username);
+        if(images == null) {
+            return false;
+        }
+        if(images.size() == 0) {
+            return false;
+        }
+        return true;
     }
 }

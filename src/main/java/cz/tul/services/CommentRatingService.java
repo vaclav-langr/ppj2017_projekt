@@ -48,11 +48,33 @@ public class CommentRatingService {
         commentRatingRepository.save(commentRating);
     }
 
-    public void deleteCommentRatings() {
+    public void deleteAllCommentRatings() {
         commentRatingRepository.deleteAll();
     }
 
     public void deleteCommentRating(CommentRating commentRating) {
         commentRatingRepository.delete(commentRating);
+    }
+
+    public void deleteCommentRatings(List<Comment> comments) {
+        List<CommentRating> commentRatings;
+        for (Comment comment: comments) {
+            commentRatings = commentRatingRepository.findByCommentId(comment.getCommentId());
+            commentRatingRepository.delete(commentRatings);
+        }
+    }
+
+    public boolean hasRating(String username) {
+        if(username.isEmpty()) {
+            return false;
+        }
+        List<CommentRating> images = commentRatingRepository.findByUsername(username);
+        if(images == null) {
+            return false;
+        }
+        if(images.size() == 0) {
+            return false;
+        }
+        return true;
     }
 }

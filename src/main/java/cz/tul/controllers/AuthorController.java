@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @RestController
-public class AuthorsController {
+public class AuthorController {
     private AuthorService authorService;
     private ImageService imageService;
     private CommentService commentService;

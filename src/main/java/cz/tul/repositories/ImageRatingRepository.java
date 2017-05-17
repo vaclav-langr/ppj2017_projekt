@@ -17,4 +17,7 @@ public interface ImageRatingRepository extends CrudRepository<ImageRating, Image
 
     @Query("select ir from ImageRating as ir where ir.imageId = :imageId")
     public List<ImageRating> getImageRatings(@Param("imageId") long imageId);
+
+    @Query("select ir from ImageRating as ir where ir.imageRatingAuthor = :userName")
+    public List<ImageRating> findByUsername(@Param("userName") String userName);
 }

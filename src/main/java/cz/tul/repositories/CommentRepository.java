@@ -16,4 +16,7 @@ public interface CommentRepository  extends CrudRepository<Comment, Long> {
 
     @Query("select c from Comment as c where c.imageId = :imageId")
     public List<Comment> getImageComments(@Param("imageId") long imageId);
+
+    @Query("select c from Comment as c where c.commentAuthor = :userName")
+    public List<Comment> findByUsername(@Param("userName") String userName);
 }

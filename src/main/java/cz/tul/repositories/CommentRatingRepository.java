@@ -17,4 +17,10 @@ public interface CommentRatingRepository extends CrudRepository<CommentRating, C
 
     @Query("select cr from CommentRating as cr where cr.commentId = :commentId")
     public List<CommentRating> getCommentRatings(@Param("commentId") long commentId);
+
+    @Query("select cr from CommentRating as cr where cr.commentRatingAuthor = :userName")
+    public List<CommentRating> findByUsername(@Param("userName") String userName);
+
+    @Query("select cr from CommentRating as cr where cr.commentId = :commentId")
+    public List<CommentRating> findByCommentId(@Param("commentId") Long commentId);
 }
