@@ -2,11 +2,10 @@ package cz.tul.controllers;
 
 import cz.tul.client.ServerApi;
 import cz.tul.data.Author;
-import cz.tul.services.AuthorService;
+import cz.tul.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,10 +17,34 @@ import java.util.List;
 @RestController
 public class AuthorsController {
     private AuthorService authorService;
+    private ImageService imageService;
+    private CommentService commentService;
+    private ImageRatingService imageRatingService;
+    private CommentRatingService commentRatingService;
 
     @Autowired
     public void setAuthorService(AuthorService authorService) {
         this.authorService = authorService;
+    }
+
+    @Autowired
+    public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
+    }
+
+    @Autowired
+    public void setCommentService(CommentService commentService) {
+        this.commentService = commentService;
+    }
+
+    @Autowired
+    public void setImageRatingService(ImageRatingService imageRatingService) {
+        this.imageRatingService = imageRatingService;
+    }
+
+    @Autowired
+    public void setCommentRatingService(CommentRatingService commentRatingService) {
+        this.commentRatingService = commentRatingService;
     }
 
     @RequestMapping(value = ServerApi.AUTHORS_PATH, method = RequestMethod.GET)
@@ -53,8 +76,13 @@ public class AuthorsController {
     @RequestMapping(value = ServerApi.AUTHOR_PATH, method = RequestMethod.DELETE)
     public ResponseEntity<Author> deleteAuthor(@PathVariable("username") String username) {
         if(authorService.exists(username)) {
-            authorService.deleteAuthor(username);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if(imageService.hasImage(username) || commentService.hasComment(username) ||
+                    imageRatingService.hasRating(username) || commentRatingService.hasRating(username)) {
+                return null; // Throw exception
+            } else {
+                authorService.deleteAuthor(username);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
