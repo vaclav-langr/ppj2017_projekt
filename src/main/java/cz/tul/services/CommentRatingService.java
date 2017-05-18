@@ -7,6 +7,8 @@ import cz.tul.repositories.CommentRatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnitUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -20,12 +22,21 @@ public class CommentRatingService {
     @Autowired
     private CommentRatingRepository commentRatingRepository;
 
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
+
     public void create(CommentRating commentRating) {
         commentRatingRepository.save(commentRating);
     }
 
     public boolean exists(CommentRatingId id) {
         return commentRatingRepository.exists(id);
+    }
+
+    public boolean exists(CommentRating commentRating) {
+        PersistenceUnitUtil util = entityManagerFactory.getPersistenceUnitUtil();
+        CommentRatingId commentRatingId = (CommentRatingId) util.getIdentifier(commentRating);
+        return commentRatingRepository.exists(commentRatingId);
     }
 
     public List<CommentRating> getAllRatings() {

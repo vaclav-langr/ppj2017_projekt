@@ -1,11 +1,7 @@
 package cz.tul.client;
 
 import cz.tul.data.*;
-import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import retrofit.http.*;
-import retrofit.mime.TypedFile;
 
 import java.util.List;
 
@@ -22,6 +18,7 @@ public interface ServerApi {
     public static final String IMAGE_RATINGS_PATH = "/imageRatings";
     public static final String COMMENTS_PATH = "/comments";
     public static final String COMMENT_PATH = COMMENTS_PATH + "/{commentId}";
+    public static final String COMMENT_RATINGS_PATH = "/commentRatings";
 
 
     @GET(AUTHORS_PATH)
@@ -73,7 +70,7 @@ public interface ServerApi {
 
 
     @GET(IMAGE_RATINGS_PATH)
-    public List<ImageRating> showRatings();
+    public List<ImageRating> showImageRatings();
 
     @GET(IMAGE_PATH + IMAGE_RATINGS_PATH)
     public List<ImageRating> showImageRatings(@Path("imageId") Long imageId);
@@ -106,4 +103,20 @@ public interface ServerApi {
 
     @DELETE(COMMENTS_PATH + COMMENT_PATH)
     public void deleteComment(@Path("commentId") Long commentId);
+
+
+    @GET(COMMENT_RATINGS_PATH)
+    public List<CommentRating> showCommentRatings();
+
+    @GET(COMMENT_PATH + COMMENT_RATINGS_PATH)
+    public List<CommentRating> showCommentRatings(@Path("commentId") Long commentId);
+
+    @POST(COMMENT_RATINGS_PATH)
+    public void addCommentRating(@Body CommentRating commentRating);
+
+    @PUT(COMMENT_RATINGS_PATH)
+    public void updateCommentRating(@Body CommentRating commentRating);
+
+    @DELETE(COMMENT_RATINGS_PATH)
+    public void deleteCommentRating(@Body CommentRating commentRating);
 }

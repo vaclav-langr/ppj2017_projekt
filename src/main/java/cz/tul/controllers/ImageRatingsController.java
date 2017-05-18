@@ -20,7 +20,7 @@ public class ImageRatingsController {
     private ImageRatingService imageRatingService;
 
     @RequestMapping(value = ServerApi.IMAGE_RATINGS_PATH, method = RequestMethod.GET)
-    public ResponseEntity<List<ImageRating>> showRatings() {
+    public ResponseEntity<List<ImageRating>> showImageRatings() {
         List<ImageRating> ratings = imageRatingService.getAllRatings();
         return new ResponseEntity<>(ratings, HttpStatus.OK);
     }
@@ -34,7 +34,7 @@ public class ImageRatingsController {
     @RequestMapping(value = ServerApi.IMAGE_RATINGS_PATH, method = RequestMethod.POST)
     public ResponseEntity<ImageRating> addImageRating(@RequestBody ImageRating imageRating) {
         if(imageRatingService.exists(imageRating)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             imageRatingService.create(imageRating);
             return new ResponseEntity<>(imageRating, HttpStatus.OK);

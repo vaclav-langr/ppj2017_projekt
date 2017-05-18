@@ -3,6 +3,7 @@ package cz.tul.data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by vaclavlangr on 03.04.17.
@@ -29,6 +30,9 @@ public class Comment {
 
     @Column(name="comment_text")
     private String commentText;
+
+    @OneToMany(mappedBy = "commentId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CommentRating> ratings;
 
     public Comment(){}
 
@@ -93,6 +97,14 @@ public class Comment {
 
     public void setCommentAuthor(String commentAuthor) {
         this.commentAuthor = commentAuthor;
+    }
+
+    public List<CommentRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<CommentRating> ratings) {
+        this.ratings = ratings;
     }
 
     @Override
