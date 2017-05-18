@@ -66,6 +66,6 @@ public interface ServerApi {
     @POST(IMAGE_PATH + TAGS_PATH)
     public void addTag(@Path("id") Long imageId, @Body String tag);
 
-    @POST(IMAGE_PATH + TAG_PATH)
+    @DELETE(IMAGE_PATH + TAG_PATH)
     public void deleteTag(@Path("id") Long imageId, @Path("tag") String tag);
 }
