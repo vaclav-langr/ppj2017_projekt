@@ -6,6 +6,8 @@ import cz.tul.repositories.ImageRatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnitUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -19,12 +21,21 @@ public class ImageRatingService {
     @Autowired
     private ImageRatingRepository imageRatingRepository;
 
+    @Autowired
+    EntityManagerFactory entityManagerFactory;
+
     public void create(ImageRating imageRating) {
         imageRatingRepository.save(imageRating);
     }
 
     public boolean exists(ImageRatingId id) {
         return imageRatingRepository.exists(id);
+    }
+
+    public boolean exists(ImageRating imageRating) {
+        PersistenceUnitUtil util = entityManagerFactory.getPersistenceUnitUtil();
+        ImageRatingId imageRatingId = (ImageRatingId) util.getIdentifier(imageRating);
+        return imageRatingRepository.exists(imageRatingId);
     }
 
     public List<ImageRating> getAllRatings() {

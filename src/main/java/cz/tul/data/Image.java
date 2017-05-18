@@ -44,6 +44,9 @@ public class Image {
     @OneToMany(mappedBy = "imageId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Tag> tags;
 
+    @OneToMany(mappedBy = "imageId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ImageRating> imageRatings;
+
     public Image(){}
 
     public Image(Author author, String url) {
@@ -120,6 +123,14 @@ public class Image {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<ImageRating> getImageRatings() {
+        return imageRatings;
+    }
+
+    public void setImageRatings(List<ImageRating> imageRatings) {
+        this.imageRatings = imageRatings;
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by vaclavlangr on 03.04.17.
  */
 @Entity
-@Table(name="ImageRating")
+@Table(name="Image_Author")
 @IdClass(ImageRatingId.class)
 public class ImageRating implements Serializable {
     @Id

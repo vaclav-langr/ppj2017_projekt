@@ -2,6 +2,7 @@ package cz.tul.client;
 
 import cz.tul.data.Author;
 import cz.tul.data.Image;
+import cz.tul.data.ImageRating;
 import cz.tul.data.Tag;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ public interface ServerApi {
     public static final String IMAGE_PATH = IMAGES_PATH + "/{id}";
     public static final String TAGS_PATH = "/tags";
     public static final String TAG_PATH = TAGS_PATH + "/{tag}";
+    public static final String IMAGE_RATINGS_PATH = "/imageRatings";
 
 
     @GET(AUTHORS_PATH)
@@ -68,4 +70,21 @@ public interface ServerApi {
 
     @DELETE(IMAGE_PATH + TAG_PATH)
     public void deleteTag(@Path("id") Long imageId, @Path("tag") String tag);
+
+
+
+    @GET(IMAGE_RATINGS_PATH)
+    public List<ImageRating> showRatings();
+
+    @GET(IMAGE_PATH + IMAGE_RATINGS_PATH)
+    public List<ImageRating> showImageRatings();
+
+    @POST(IMAGE_RATINGS_PATH)
+    public void addImageRating(@Body ImageRating imageRating);
+
+    @PUT(IMAGE_RATINGS_PATH)
+    public void updateImageRating(@Body ImageRating imageRating);
+
+    @DELETE(IMAGE_RATINGS_PATH)
+    public void deleteImageRating(@Body ImageRating imageRating);
 }
