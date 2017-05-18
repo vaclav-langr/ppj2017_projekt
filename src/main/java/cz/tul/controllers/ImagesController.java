@@ -66,13 +66,13 @@ public class ImagesController {
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.GET)
-    public ResponseEntity<Image> getImage(@PathVariable("id") Long id) {
+    public ResponseEntity<Image> getImage(@PathVariable("imageId") Long id) {
         Image image = imageService.getImage(id);
         return new ResponseEntity<>(image, HttpStatus.OK);
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH + "/data", method = RequestMethod.GET)
-    public HttpEntity<byte[]> getImageData(@PathVariable("id") Long id) {
+    public HttpEntity<byte[]> getImageData(@PathVariable("imageId") Long id) {
         byte[] image = new byte[0];
         HttpHeaders headers = new HttpHeaders();
         setFileManager();
@@ -98,7 +98,7 @@ public class ImagesController {
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<Image> deleteImage(@PathVariable("id") Long id) {
+    public ResponseEntity<Image> deleteImage(@PathVariable("imageId") Long id) {
         if(imageService.exists(id)) {
             tagService.deleteTagsByImageId(id);
             imageRatingService.deleteImageRatingsByImageId(id);

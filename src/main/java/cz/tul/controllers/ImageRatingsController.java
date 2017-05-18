@@ -26,7 +26,7 @@ public class ImageRatingsController {
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH + ServerApi.IMAGE_RATINGS_PATH, method = RequestMethod.GET)
-    public ResponseEntity<List<ImageRating>> showImageRatings(@PathVariable(value = "id") Long imageId) {
+    public ResponseEntity<List<ImageRating>> showImageRatings(@PathVariable(value = "imageId") Long imageId) {
         List<ImageRating> ratings = imageRatingService.getImageRatings(imageId);
         return new ResponseEntity<>(ratings, HttpStatus.OK);
     }

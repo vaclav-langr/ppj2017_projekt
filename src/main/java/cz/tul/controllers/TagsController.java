@@ -31,13 +31,13 @@ public class TagsController {
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH + ServerApi.TAGS_PATH, method = RequestMethod.GET)
-    public ResponseEntity<List<Tag>> showImageTags(@PathVariable(value = "id") Long imageId) {
+    public ResponseEntity<List<Tag>> showImageTags(@PathVariable(value = "imageId") Long imageId) {
         List<Tag> tags = tagService.getImageTags(imageId);
         return new ResponseEntity<>(tags, HttpStatus.OK);
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH + ServerApi.TAGS_PATH, method = RequestMethod.POST)
-    public ResponseEntity<Tag> addTag(@PathVariable(value = "id") Long imageId,@RequestBody String tag) {
+    public ResponseEntity<Tag> addTag(@PathVariable(value = "imageId") Long imageId,@RequestBody String tag) {
         Tag tag1 = new Tag(imageId, tag);
         if(tagService.exists(tag1)) {
             return new ResponseEntity<>(tag1, HttpStatus.BAD_REQUEST);
@@ -48,7 +48,7 @@ public class TagsController {
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH + ServerApi.TAG_PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<Tag> deleteTag(@PathVariable(value = "id") Long imageId,@PathVariable(value = "tag") String tag) {
+    public ResponseEntity<Tag> deleteTag(@PathVariable(value = "imageId") Long imageId,@PathVariable(value = "tag") String tag) {
         Tag tag1 = new Tag(imageId, tag);
         if(tagService.exists(tag1)) {
             tagService.deleteTag(tag1);

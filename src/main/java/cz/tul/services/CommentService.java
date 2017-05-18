@@ -5,6 +5,7 @@ import cz.tul.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -52,11 +53,14 @@ public class CommentService {
             return null;
         }
         List<Comment> comments = commentRepository.getImageComments(imageId);
-
         if(comments.size() == 0) {
             return null;
         }
         return comments;
+    }
+
+    public Comment getComment(long commentId) {
+        return commentRepository.findOne(commentId);
     }
 
     public boolean hasComment(String username) {
@@ -71,5 +75,9 @@ public class CommentService {
             return false;
         }
         return true;
+    }
+
+    public boolean exists(long commentId) {
+        return commentRepository.exists(commentId);
     }
 }
