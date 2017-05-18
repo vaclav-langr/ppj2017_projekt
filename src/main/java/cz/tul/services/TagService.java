@@ -22,17 +22,27 @@ public class TagService {
     TagRepository tagRepository;
 
     @Autowired
+    ImageService imageService;
+
+    @Autowired
     EntityManagerFactory entityManagerFactory;
 
     public void create(Tag tag){
         tagRepository.save(tag);
     }
 
+    public List<Tag> getTags() {
+        List<Tag> tags = StreamSupport.stream(tagRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        if(tags.size() == 0) {
+            return null;
+        }
+        return tags;
+    }
+
     public List<Tag> getImageTags(long imageId){
         if(imageId <= 0) {
             return null;
         }
-
         List<Tag> tags = StreamSupport.stream(tagRepository.getTagsForImage(imageId).spliterator(), false).collect(Collectors.toList());
 
         if(tags.size() == 0) {

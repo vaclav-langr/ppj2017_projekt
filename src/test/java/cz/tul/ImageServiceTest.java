@@ -1,6 +1,5 @@
 package cz.tul;
 
-import cz.tul.app.Main;
 import cz.tul.data.Author;
 import cz.tul.data.Image;
 import cz.tul.data.Tag;

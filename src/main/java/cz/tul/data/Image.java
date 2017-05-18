@@ -1,13 +1,16 @@
 package cz.tul.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by vaclavlangr on 03.04.17.
@@ -37,6 +40,9 @@ public class Image {
 
     @Column(name="updated")
     private LocalDateTime updated;
+
+    @OneToMany(mappedBy = "imageId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Tag> tags;
 
     public Image(){}
 
@@ -106,6 +112,14 @@ public class Image {
 
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override
