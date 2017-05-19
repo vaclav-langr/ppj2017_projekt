@@ -43,14 +43,19 @@ public class CommentsController {
 
     @RequestMapping(value = ServerApi.IMAGE_PATH + ServerApi.COMMENTS_PATH, method = RequestMethod.POST)
     public ResponseEntity<Comment> addComment(@PathVariable("imageId") Long imageId, @RequestBody Comment comment) {
-        commentService.create(comment);
-        return new ResponseEntity<>(comment, HttpStatus.OK);
+        if(commentService.exists(comment.getCommentId())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            commentService.create(comment);
+            return new ResponseEntity<>(comment, HttpStatus.OK);
+        }
     }
 
     @RequestMapping(value = ServerApi.COMMENT_PATH, method = RequestMethod.PUT)
     public ResponseEntity<Comment> updateComment(@PathVariable("commentId") Long commentId, @RequestBody Comment comment) {
         Comment temp = commentService.getComment(commentId);
         comment.setCreated(temp.getCreated());
+        comment.setCommentId(commentId);
         if(commentService.exists(commentId)) {
             commentService.saveOrUpdate(comment);
             return new ResponseEntity<>(comment, HttpStatus.OK);

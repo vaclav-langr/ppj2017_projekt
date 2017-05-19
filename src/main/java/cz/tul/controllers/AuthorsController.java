@@ -1,6 +1,8 @@
 package cz.tul.controllers;
 
 import cz.tul.client.ServerApi;
+import cz.tul.controllers.exceptions.APIErrorMessage;
+import cz.tul.controllers.exceptions.APIException;
 import cz.tul.data.Author;
 import cz.tul.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +66,7 @@ public class AuthorsController {
         if(authorService.exists(userName)) {
             if(imageService.hasImage(userName) || commentService.hasComment(userName) ||
                     imageRatingService.hasRating(userName) || commentRatingService.hasRating(userName)) {
-                return null; // Throw exception
+                throw new APIException("Unable to delete author with image/comment/imageRating/commentRating.");
             } else {
                 authorService.deleteAuthor(userName);
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,4 +77,8 @@ public class AuthorsController {
     }
 
 
+    @ExceptionHandler(APIException.class)
+    public ResponseEntity<APIErrorMessage> handleAPIException(APIException e) {
+        return new ResponseEntity<>(new APIErrorMessage(e.getMessage()),HttpStatus.BAD_REQUEST);
+    }
 }

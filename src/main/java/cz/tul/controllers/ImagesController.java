@@ -1,12 +1,14 @@
 package cz.tul.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import cz.tul.client.FileManager;
 import cz.tul.client.ImageStatus;
 import cz.tul.client.ServerApi;
 import cz.tul.data.Author;
 import cz.tul.data.Image;
 import cz.tul.services.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.jdbc.datasource.embedded.ConnectionProperties;
@@ -48,15 +50,11 @@ public class ImagesController {
     private FileManager fileManager;
 
     public void setFileManager() {
-
         try {
-
             fileManager = FileManager.get();
-
         } catch (IOException e) {
-
-            e.printStackTrace();
-
+            Logger logger = Logger.getLogger(ImagesController.class);
+            logger.error("Unable to set file manager:", e);
         }
     }
 
@@ -79,10 +77,18 @@ public class ImagesController {
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(ImagesController.class);
+            logger.error("Unable to parse strAuthor=" + strAuthor + ":", e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
             image = new ObjectMapper().readValue(strImage, Image.class);
             image.setAuthor(author);
         } catch (IOException e) {
-
+            Logger logger = Logger.getLogger(ImagesController.class);
+            logger.error("Unable to parse strImage=" + strImage + ":", e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         ImageStatus state = new ImageStatus(ImageStatus.ImageState.READY);
         imageService.create(image);
@@ -92,6 +98,9 @@ public class ImagesController {
                 Long id = image.getImageId();
                 fileManager.saveImage(id.toString(), imageData.getInputStream());
             } catch (IOException e) {
+                Logger logger = Logger.getLogger(ImagesController.class);
+                logger.error("Unable to save file:", e);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(state, HttpStatus.OK);
         } else {
@@ -112,11 +121,19 @@ public class ImagesController {
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(ImagesController.class);
+            logger.error("Unable to parse strAuthor=" + strAuthor + ":", e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
             image = new ObjectMapper().readValue(strImage, Image.class);
             image.setAuthor(author);
             image.setImageId(imageId);
         } catch (IOException e) {
-
+            Logger logger = Logger.getLogger(ImagesController.class);
+            logger.error("Unable to parse strImage=" + strImage + ":", e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         ImageStatus state = new ImageStatus(ImageStatus.ImageState.READY);
         imageService.saveOrUpdate(image);
@@ -146,7 +163,9 @@ public class ImagesController {
                     headers.setContentType(MediaType.valueOf(mime));
                 }
             } catch (IOException e) {
-
+                Logger logger = Logger.getLogger(ImagesController.class);
+                logger.error("Unable to get file:", e);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
         return new HttpEntity<>(image, headers);
