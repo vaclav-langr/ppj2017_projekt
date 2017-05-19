@@ -1,15 +1,19 @@
 package cz.tul.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.tul.client.FileManager;
 import cz.tul.client.ImageStatus;
 import cz.tul.client.ServerApi;
+import cz.tul.data.Author;
 import cz.tul.data.Image;
 import cz.tul.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.jdbc.datasource.embedded.ConnectionProperties;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,6 +26,9 @@ import java.util.List;
 
 @RestController
 public class ImagesController {
+
+    @Autowired
+    private AuthorService authorService;
 
     @Autowired
     private ImageService imageService;
@@ -60,9 +67,60 @@ public class ImagesController {
     }
 
     @RequestMapping(value = ServerApi.IMAGES_PATH, method = RequestMethod.POST)
-    public ResponseEntity<Image> addImage(@RequestParam("image") Image image) {
+    public ResponseEntity<ImageStatus> addImage(@RequestParam(value = "strAuthor") String strAuthor,
+                                                @RequestParam(value = "strImage") String strImage,
+                                                @RequestParam(value = "data") MultipartFile imageData) {
+        Author author = null;
+        Image image = null;
+        try {
+            author = new ObjectMapper().readValue(strAuthor, Author.class);
+            if(authorService.exists(author.getUserName())) {
+                author = authorService.getAuthor(author.getUserName());
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            image = new ObjectMapper().readValue(strImage, Image.class);
+            image.setAuthor(author);
+        } catch (IOException e) {
+
+        }
+        ImageStatus state = new ImageStatus(ImageStatus.ImageState.READY);
         imageService.create(image);
-        return new ResponseEntity<>(image, HttpStatus.OK);
+        if(image.getUrl() == null || image.getUrl().isEmpty()) {
+            setFileManager();
+            try {
+                Long id = image.getImageId();
+                fileManager.saveImage(id.toString(), imageData.getInputStream());
+            } catch (IOException e) {
+            }
+            return new ResponseEntity<>(state, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(state, HttpStatus.OK);
+        }
+    }
+
+    @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.PUT)
+    public ResponseEntity<ImageStatus> updateImage(@PathVariable("imageId") Long imageId,
+                                                   @RequestPart(value = "strAuthor") String strAuthor,
+                                                   @RequestPart(value = "strImage") String strImage) {
+        Author author = null;
+        Image image = null;
+        try {
+            author = new ObjectMapper().readValue(strAuthor, Author.class);
+            if(authorService.exists(author.getUserName())) {
+                author = authorService.getAuthor(author.getUserName());
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            image = new ObjectMapper().readValue(strImage, Image.class);
+            image.setAuthor(author);
+            image.setImageId(imageId);
+        } catch (IOException e) {
+
+        }
+        ImageStatus state = new ImageStatus(ImageStatus.ImageState.READY);
+        imageService.saveOrUpdate(image);
+        return new ResponseEntity<>(state, HttpStatus.OK);
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.GET)
@@ -76,25 +134,22 @@ public class ImagesController {
         byte[] image = new byte[0];
         HttpHeaders headers = new HttpHeaders();
         setFileManager();
-        if(fileManager.imageExists("test")) {
+        if(fileManager.imageExists(id.toString())) {
+            Image image1 = imageService.getImage(id);
             try {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                fileManager.retrieveImage("test", baos);
-                image = baos.toByteArray();
-                headers.setContentLength(image.length);
-                String mime = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(image));
-                headers.setContentType(MediaType.valueOf(mime));
+                if(image1.getUrl().isEmpty()) {
+                    fileManager.retrieveImage(id.toString(), baos);
+                    image = baos.toByteArray();
+                    headers.setContentLength(image.length);
+                    String mime = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(image));
+                    headers.setContentType(MediaType.valueOf(mime));
+                }
             } catch (IOException e) {
 
             }
         }
         return new HttpEntity<>(image, headers);
-    }
-
-    @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.PUT)
-    public ResponseEntity<Image> updateImage(@RequestBody Image image) {
-        imageService.saveOrUpdate(image);
-        return new ResponseEntity<>(image, HttpStatus.OK);
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.DELETE)

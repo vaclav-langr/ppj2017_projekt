@@ -25,7 +25,6 @@ public class Image {
     private long imageId;
 
     @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name="image_author")
     private Author author;
 

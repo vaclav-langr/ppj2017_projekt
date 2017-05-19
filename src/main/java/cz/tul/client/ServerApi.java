@@ -2,6 +2,7 @@ package cz.tul.client;
 
 import cz.tul.data.*;
 import retrofit.http.*;
+import retrofit.mime.TypedFile;
 
 import java.util.List;
 
@@ -38,20 +39,25 @@ public interface ServerApi {
     @GET(IMAGES_PATH)
     public List<Image> showImages();
 
+    @Multipart
     @POST(IMAGES_PATH)
-    public void addImage(@Body Image image);
+    public ImageStatus addImage(@Part("strAuthor") String strAuthor,
+                                @Part("strImage") String strImage,
+                                @Part("data") TypedFile imageData);
 
     @GET(IMAGE_PATH)
-    public Image getImage(@Path("imageId") Long id);
+    public Image getImage(@Path("imageId") Long imageId);
 
+    @Streaming
     @GET(IMAGE_PATH + "/data")
-    public byte[] getImageData(@Path("imageId") Long id);
+    public byte[] getImageData(@Path("imageId") Long imageId);
 
+    @Multipart
     @PUT(IMAGE_PATH)
-    public void updateImage(@Body Image image);
+    public ImageStatus updateImage(@Path("imageId") Long imageId, @Part("strImage") String strImage);
 
     @DELETE(IMAGE_PATH)
-    public void deleteImage(@Path("imageId") Long id);
+    public void deleteImage(@Path("imageId") Long imageId);
 
     
 
@@ -103,6 +109,7 @@ public interface ServerApi {
 
     @DELETE(COMMENTS_PATH + COMMENT_PATH)
     public void deleteComment(@Path("commentId") Long commentId);
+
 
 
     @GET(COMMENT_RATINGS_PATH)
