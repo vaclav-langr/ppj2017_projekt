@@ -58,7 +58,7 @@ public class ImageService {
             return null;
         }
 
-        List<Image> images = imageRepository.findByName(name);
+        List<Image> images = imageRepository.findByNameContaining(name);
 
         if(images.size() == 0){
             return null;
@@ -81,15 +81,32 @@ public class ImageService {
         return images;
     }
 
-    public List<Image> getImagesByTags(List<String> tags) {
-        if(tags == null) {
+    public List<Image> getImagesByAuthor(String username){
+        if(username == null) {
             return null;
         }
-        if(tags.size() == 0){
+        if(username.isEmpty()) {
             return null;
         }
 
-        List<Long> imageIds = imageRepository.findByTags(tags);
+        List<Image> images = imageRepository.findByUsername(username);
+
+        if(images.size() == 0){
+            return null;
+        }
+
+        return images;
+    }
+
+    public List<Image> getImagesByTag(String tag) {
+        if(tag == null) {
+            return null;
+        }
+        if(tag.isEmpty()){
+            return null;
+        }
+
+        List<Long> imageIds = imageRepository.findByTags(tag);
         if(imageIds.size() == 0) {
             return null;
         }

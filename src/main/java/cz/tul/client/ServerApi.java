@@ -13,6 +13,9 @@ public interface ServerApi {
     public static final String AUTHORS_PATH = "/authors";
     public static final String AUTHOR_PATH = AUTHORS_PATH + "/{userName}" ;
     public static final String IMAGES_PATH = "/images";
+    public static final String IMAGE_FIND_NAME = IMAGES_PATH + "/name/{imageName}";
+    public static final String IMAGE_FIND_AUTHOR = IMAGES_PATH + "/author/{userName}";
+    public static final String IMAGE_FIND_TAG = IMAGES_PATH + "/tag/{tag}";
     public static final String IMAGE_PATH = IMAGES_PATH + "/{imageId}";
     public static final String TAGS_PATH = "/tags";
     public static final String TAG_PATH = TAGS_PATH + "/{tag}";
@@ -58,6 +61,15 @@ public interface ServerApi {
 
     @DELETE(IMAGE_PATH)
     public void deleteImage(@Path("imageId") Long imageId);
+
+    @GET(IMAGE_FIND_NAME)
+    public List<Image> showByImageName(@Path("imageName") String imageName);
+
+    @GET(IMAGE_FIND_AUTHOR)
+    public List<Image> showByUserName(@Path("userName") String userName);
+
+    @GET(IMAGE_FIND_TAG)
+    public List<Image> showByTag(@Path("tag") String tag);
 
     
 

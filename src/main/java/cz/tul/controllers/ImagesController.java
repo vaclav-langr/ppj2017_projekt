@@ -1,7 +1,6 @@
 package cz.tul.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import cz.tul.client.FileManager;
 import cz.tul.client.ImageStatus;
 import cz.tul.client.ServerApi;
@@ -11,11 +10,9 @@ import cz.tul.services.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.jdbc.datasource.embedded.ConnectionProperties;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -61,6 +58,24 @@ public class ImagesController {
     @RequestMapping(value = ServerApi.IMAGES_PATH, method = RequestMethod.GET)
     public ResponseEntity<List<Image>> showImages() {
         List<Image> images = imageService.getAllImages();
+        return new ResponseEntity<>(images, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = ServerApi.IMAGE_FIND_NAME, method = RequestMethod.GET)
+    public ResponseEntity<List<Image>> showImagesByName(@PathVariable("imageName") String imageName) {
+        List<Image> images = imageService.getImagesByName(imageName);
+        return new ResponseEntity<>(images, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = ServerApi.IMAGE_FIND_AUTHOR, method = RequestMethod.GET)
+    public ResponseEntity<List<Image>> showImagesByUserName(@PathVariable("userName") String userName) {
+        List<Image> images = imageService.getImagesByAuthor(userName);
+        return new ResponseEntity<>(images, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = ServerApi.IMAGE_FIND_TAG, method = RequestMethod.GET)
+    public ResponseEntity<List<Image>> showImagesByTag(@PathVariable("tag") String tag) {
+        List<Image> images = imageService.getImagesByTag(tag);
         return new ResponseEntity<>(images, HttpStatus.OK);
     }
 

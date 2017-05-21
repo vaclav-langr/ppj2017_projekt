@@ -49,7 +49,7 @@ public class ImageServiceTest {
     private Author author2 = new Author("test");
     private Author author3 = new Author("test2");
     private Image image1 = new Image(author1, "url", "name");
-    private Image image2 = new Image(author2, "url2", "name2");
+    private Image image2 = new Image(author2, "url2", "test2");
 
     @Test
     public void testCreateRetrieve() {
@@ -160,16 +160,13 @@ public class ImageServiceTest {
         Tag tag2 = new Tag(image1.getImageId(), "testTag2");
         tagService.create(tag1);
 
-        List<String> tags1 = new ArrayList<>();
-        tags1.add(tag1.getTag());
-        tags1.add(tag2.getTag());
-        List<Image> images1 = imageService.getImagesByTags(tags1);
+        String strTag1 = tag1.getTag();
+        List<Image> images1 = imageService.getImagesByTag(strTag1);
         assertNotNull("Should not be null", images1);
         assertEquals("For tag " + tag1.getTag() + " should be 1 image", 1, images1.size());
 
-        List<String> tags2 = new ArrayList<>();
-        tags2.add("randomTag");
-        List<Image> images2 = imageService.getImagesByTags(tags2);
+        String strTag2 = "randomTag";
+        List<Image> images2 = imageService.getImagesByTag(strTag2);
         assertNull("Null should be retrieved", images2);
     }
 }
