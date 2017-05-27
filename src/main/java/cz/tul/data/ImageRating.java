@@ -1,37 +1,48 @@
 package cz.tul.data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 /**
  * Created by vaclavlangr on 03.04.17.
  */
-public class ImageRating {
-    private int image_id;
-    private String image_rating_author;
+@Entity
+@Table(name="Image_Author")
+@IdClass(ImageRatingId.class)
+public class ImageRating implements Serializable {
+    @Id
+    @Column(name="image_id")
+    private long imageId;
+
+    @Id
+    @Column(name="image_rating_author")
+    private String imageRatingAuthor;
+
+    @Column(name="value")
     private int value;
 
-    public ImageRating() {
+    public ImageRating() {}
 
-    }
-
-    public ImageRating(int image_id, String image_rating_author, int value) {
-        this.image_id = image_id;
-        this.image_rating_author = image_rating_author;
+    public ImageRating(long imageId, String imageRatingAuthor, int value) {
+        this.imageId = imageId;
+        this.imageRatingAuthor = imageRatingAuthor;
         this.value = value;
     }
 
-    public int getImage_id() {
-        return image_id;
+    public long getImageId() {
+        return imageId;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setImageId(long imageId) {
+        this.imageId = imageId;
     }
 
-    public String getImage_rating_author() {
-        return image_rating_author;
+    public String getImageRatingAuthor() {
+        return imageRatingAuthor;
     }
 
-    public void setImage_rating_author(String image_rating_author) {
-        this.image_rating_author = image_rating_author;
+    public void setImageRatingAuthor(String imageRatingAuthor) {
+        this.imageRatingAuthor = imageRatingAuthor;
     }
 
     public int getValue() {
@@ -45,30 +56,30 @@ public class ImageRating {
     @Override
     public String toString() {
         return "ImageRating{" +
-                "image_id=" + image_id +
-                ", image_rating_author='" + image_rating_author + '\'' +
+                "image_id=" + imageId +
+                ", imageRatingAuthor='" + imageRatingAuthor + '\'' +
                 ", value=" + value +
                 '}';
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        ImageRating temp = (ImageRating)obj;
-        if (getImage_id() != temp.getImage_id()) {
-            return false;
-        }
-        if (!getImage_rating_author().equals(temp.getImage_rating_author())) {
-            return false;
-        }
-        if (getValue() != temp.getValue()) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ImageRating that = (ImageRating) o;
+
+        if (imageId != that.imageId) return false;
+        if (value != that.value) return false;
+        return imageRatingAuthor.equals(that.imageRatingAuthor);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (imageId ^ (imageId >>> 32));
+        result = 31 * result + imageRatingAuthor.hashCode();
+        result = 31 * result + value;
+        return result;
     }
 }

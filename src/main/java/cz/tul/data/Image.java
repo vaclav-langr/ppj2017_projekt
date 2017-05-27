@@ -1,53 +1,90 @@
 package cz.tul.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Entity
+@Table(name="Image")
 public class Image {
-    private int image_id;
-    private String image_author, url, name;
-    private Date created, updated;
 
-    public Image(){
+    @Id
+    @GeneratedValue
+    @Column(name="image_id")
+    private long imageId;
 
-    }
+    @ManyToOne
+    @JoinColumn(name="image_author")
+    private Author author;
 
-    public Image(String image_author, String url) {
-        this.image_author = image_author;
+    @Column(name="url")
+    private String url;
+
+    @Column(name="name")
+    private String name;
+
+    @Column(name="created")
+    private LocalDateTime created;
+
+    @Column(name="updated")
+    private LocalDateTime updated;
+
+    @OneToMany(mappedBy = "imageId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Tag> tags;
+
+    @OneToMany(mappedBy = "imageId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ImageRating> imageRatings;
+
+    @OneToMany(mappedBy = "imageId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
+    public Image(){}
+
+    public Image(Author author, String url) {
+        this.author = author;
         this.url = url;
     }
 
-    public Image(String image_author, String url, String name) {
-        this.image_author = image_author;
+    public Image(Author author, String url, String name) {
+        this.author = author;
         this.url = url;
         this.name = name;
     }
 
-    public Image(int image_id, String image_author, String url, String name, Date created, Date updated) {
-        this.image_id = image_id;
-        this.image_author = image_author;
+    public Image(long imageId, Author author, String url, String name, LocalDateTime created, LocalDateTime updated) {
+        this.imageId = imageId;
+        this.author = author;
         this.url = url;
         this.name = name;
         this.created = created;
         this.updated = updated;
     }
 
-    public int getImage_id() {
-        return image_id;
+    public long getImageId() {
+        return imageId;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setImageId(long imageId) {
+        this.imageId = imageId;
     }
 
-    public String getImage_author() {
-        return image_author;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setImage_author(String image_author) {
-        this.image_author = image_author;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public String getUrl() {
@@ -66,27 +103,51 @@ public class Image {
         this.name = name;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public LocalDateTime getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<ImageRating> getImageRatings() {
+        return imageRatings;
+    }
+
+    public void setImageRatings(List<ImageRating> imageRatings) {
+        this.imageRatings = imageRatings;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override
     public String toString() {
         return "Image{" +
-                "image_id=" + image_id +
-                ", image_author='" + image_author + '\'' +
+                "imageId=" + imageId +
+                ", author=" + author +
                 ", url='" + url + '\'' +
                 ", name='" + name + '\'' +
                 ", created=" + created +
@@ -95,33 +156,36 @@ public class Image {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        Image temp = (Image)obj;
-        if (!getUrl().equals(temp.getUrl())){
-            return false;
-        }
-        if (getName() == null) {
-            if (temp.getName() != null) {
-                return false;
-            }
-        } else {
-            if (temp.getName() == null) {
-                return false;
-            } else {
-                if (!getName().equals(temp.getName())) {
-                    return false;
-                }
-            }
-        }
-        if (!getImage_author().equals(temp.getImage_author())) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Image image = (Image) o;
+
+        if (imageId != image.imageId) return false;
+        if (!author.equals(image.author)) return false;
+        if (!url.equals(image.url)) return false;
+        return name.equals(image.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (imageId ^ (imageId >>> 32));
+        result = 31 * result + author.hashCode();
+        result = 31 * result + url.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        setCreated(LocalDateTime.now());
+        setUpdated(LocalDateTime.now());
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        setUpdated(LocalDateTime.now());
     }
 }

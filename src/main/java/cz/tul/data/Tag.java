@@ -1,27 +1,36 @@
 package cz.tul.data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 /**
  * Created by vaclavlangr on 03.04.17.
  */
-public class Tag {
-    private int image_id;
+@Entity
+@Table(name="Tag")
+@IdClass(TagId.class)
+public class Tag implements Serializable {
+    @Id
+    @Column(name="image_id")
+    private long imageId;
+
+    @Id
+    @Column(name="tag")
     private String tag;
 
-    public Tag(){
+    public Tag(){}
 
-    }
-
-    public Tag(int image_id, String tag) {
-        this.image_id = image_id;
+    public Tag(long imageId, String tag) {
+        this.imageId = imageId;
         this.tag = tag;
     }
 
-    public int getImage_id() {
-        return image_id;
+    public long getImageId() {
+        return imageId;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setImageId(long imageId) {
+        this.imageId = imageId;
     }
 
     public String getTag() {
@@ -35,26 +44,27 @@ public class Tag {
     @Override
     public String toString() {
         return "Tag{" +
-                "image_id=" + image_id +
+                "imageId=" + imageId +
                 ", tag='" + tag + '\'' +
                 '}';
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        Tag temp = (Tag)obj;
-        if (getImage_id() != temp.getImage_id()) {
-            return false;
-        }
-        if (!getTag().equals(temp.getTag())) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tag tag1 = (Tag) o;
+
+        if (imageId != tag1.imageId) return false;
+        return tag.equals(tag1.tag);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (imageId ^ (imageId >>> 32));
+        result = 31 * result + tag.hashCode();
+        return result;
     }
 }

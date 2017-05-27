@@ -1,112 +1,155 @@
 package cz.tul.data;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by vaclavlangr on 03.04.17.
  */
+@Entity
+@Table(name="Comment")
 public class Comment {
-    private int image_id, comment_id;
-    private Date created, updated;
-    private String comment_text, comment_author;
+    @Column(name="image_id")
+    private long imageId;
 
-    public Comment(){
+    @Column(name="comment_author")
+    private String commentAuthor;
 
+    @Id
+    @GeneratedValue
+    @Column(name="comment_id")
+    private long commentId;
+
+    @Column(name="created")
+    private LocalDateTime created;
+
+    @Column(name="updated")
+    private LocalDateTime updated;
+
+    @Column(name="comment_text")
+    private String commentText;
+
+    @OneToMany(mappedBy = "commentId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CommentRating> ratings;
+
+    public Comment(){}
+
+    public Comment(long imageId, String commentText, String commentAuthor) {
+        this.imageId = imageId;
+        this.commentText = commentText;
+        this.commentAuthor = commentAuthor;
     }
 
-    public Comment(int image_id, String comment_text, String comment_author) {
-        this.image_id = image_id;
-        this.comment_text = comment_text;
-        this.comment_author = comment_author;
-    }
-
-    public Comment(int image_id, int comment_id, Date created, Date updated, String comment_text, String comment_author) {
-        this.image_id = image_id;
-        this.comment_id = comment_id;
+    public Comment(long imageId, long commentId, LocalDateTime created, LocalDateTime updated, String commentText, String commentAuthor) {
+        this.imageId = imageId;
+        this.commentId = commentId;
         this.created = created;
         this.updated = updated;
-        this.comment_text = comment_text;
-        this.comment_author = comment_author;
+        this.commentText = commentText;
+        this.commentAuthor = commentAuthor;
     }
 
-    public int getImage_id() {
-        return image_id;
+    public long getImageId() {
+        return imageId;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setImageId(long imageId) {
+        this.imageId = imageId;
     }
 
-    public int getComment_id() {
-        return comment_id;
+    public long getCommentId() {
+        return commentId;
     }
 
-    public void setComment_id(int comment_id) {
-        this.comment_id = comment_id;
+    public void setCommentId(long commentId) {
+        this.commentId = commentId;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public LocalDateTime getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
     }
 
-    public String getComment_text() {
-        return comment_text;
+    public String getCommentText() {
+        return commentText;
     }
 
-    public void setComment_text(String comment_text) {
-        this.comment_text = comment_text;
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
-    public String getComment_author() {
-        return comment_author;
+    public String getCommentAuthor() {
+        return commentAuthor;
     }
 
-    public void setComment_author(String comment_author) {
-        this.comment_author = comment_author;
+    public void setCommentAuthor(String commentAuthor) {
+        this.commentAuthor = commentAuthor;
+    }
+
+    public List<CommentRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<CommentRating> ratings) {
+        this.ratings = ratings;
     }
 
     @Override
     public String toString() {
         return "Comment{" +
-                "image_id=" + image_id +
-                ", comment_id=" + comment_id +
+                "image_id=" + imageId +
+                ", commentId=" + commentId +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", comment_text='" + comment_text + '\'' +
-                ", author='" + comment_author + '\'' +
+                ", commentText='" + commentText + '\'' +
+                ", author='" + commentAuthor + '\'' +
                 '}';
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        Comment temp = (Comment)obj;
-        if (getImage_id() != temp.getImage_id()) {
-            return false;
-        }
-        if (!getComment_author().equals(temp.getComment_author())) {
-            return false;
-        }
-        if (!getComment_text().equals(temp.getComment_text())) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment = (Comment) o;
+
+        if (imageId != comment.imageId) return false;
+        if (commentId != comment.commentId) return false;
+        if (!commentAuthor.equals(comment.commentAuthor)) return false;
+        return commentText.equals(comment.commentText);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (imageId ^ (imageId >>> 32));
+        result = 31 * result + commentAuthor.hashCode();
+        result = 31 * result + (int) (commentId ^ (commentId >>> 32));
+        result = 31 * result + commentText.hashCode();
+        return result;
+    }
+
+    @PrePersist
+    public void prePersist(){
+        setCreated(LocalDateTime.now());
+        setUpdated(LocalDateTime.now());
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        setUpdated(LocalDateTime.now());
     }
 }

@@ -1,37 +1,48 @@
 package cz.tul.data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 /**
  * Created by vaclavlangr on 03.04.17.
  */
-public class CommentRating {
-    private int comment_id;
-    private String comment_rating_author;
+@Entity
+@Table(name="Comment_Author")
+@IdClass(CommentRatingId.class)
+public class CommentRating implements Serializable {
+    @Id
+    @Column(name="comment_id")
+    private long commentId;
+
+    @Id
+    @Column(name="comment_rating_author")
+    private String commentRatingAuthor;
+
+    @Column(name="value")
     private int value;
 
-    public CommentRating(){
+    public CommentRating(){}
 
-    }
-
-    public CommentRating(int comment_id, String comment_rating_author, int value) {
-        this.comment_id = comment_id;
-        this.comment_rating_author = comment_rating_author;
+    public CommentRating(long commentId, String commentRatingAuthor, int value) {
+        this.commentId = commentId;
+        this.commentRatingAuthor = commentRatingAuthor;
         this.value = value;
     }
 
-    public int getComment_id() {
-        return comment_id;
+    public long getCommentId() {
+        return commentId;
     }
 
-    public void setComment_id(int comment_id) {
-        this.comment_id = comment_id;
+    public void setCommentId(long commentId) {
+        this.commentId = commentId;
     }
 
-    public String getComment_rating_author() {
-        return comment_rating_author;
+    public String getCommentRatingAuthor() {
+        return commentRatingAuthor;
     }
 
-    public void setComment_rating_author(String comment_rating_author) {
-        this.comment_rating_author = comment_rating_author;
+    public void setCommentRatingAuthor(String commentRatingAuthor) {
+        this.commentRatingAuthor = commentRatingAuthor;
     }
 
     public int getValue() {
@@ -45,30 +56,30 @@ public class CommentRating {
     @Override
     public String toString() {
         return "CommentRating{" +
-                "comment_id=" + comment_id +
-                ", comment_rating_author='" + comment_rating_author + '\'' +
+                "comment_id=" + commentId +
+                ", commentRatingAuthor='" + commentRatingAuthor + '\'' +
                 ", value=" + value +
                 '}';
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null){
-            return false;
-        }
-        if(getClass() != obj.getClass()){
-            return false;
-        }
-        CommentRating temp = (CommentRating)obj;
-        if (getComment_id() != temp.getComment_id()) {
-            return false;
-        }
-        if (!getComment_rating_author().equals(temp.getComment_rating_author())) {
-            return false;
-        }
-        if (getValue() != temp.getValue()) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CommentRating that = (CommentRating) o;
+
+        if (commentId != that.commentId) return false;
+        if (value != that.value) return false;
+        return commentRatingAuthor.equals(that.commentRatingAuthor);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (commentId ^ (commentId >>> 32));
+        result = 31 * result + commentRatingAuthor.hashCode();
+        result = 31 * result + value;
+        return result;
     }
 }
